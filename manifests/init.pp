@@ -3,12 +3,12 @@
 # A class obtain an installation of selendroid and register it as a service.
 #
 # === Parameters
-# 
+#
 # [*java_home*] the location of the java jdk to use
 # [*android_home*] the location of the android sdk
 # [*nexus*] The nexus server to obtain selendroid from
-# [*keystore*] the location of a keystore to use for selendroid. 
-#   See [Launching Selendroid](http://selendroid.io/setup.html#launchingSelendroid)
+# [*keystore*] the location of a keystore to use for selendroid. See
+#   [Launching Selendroid](http://selendroid.io/setup.html#launchingSelendroid)
 # [*service_name*] the service name selendroid should run as
 # [*service_ensure*] the ensure value of the selendroid service
 # [*service_enable*] if the selendroid service should be enabled
@@ -44,8 +44,8 @@ class selendroid (
 
   if $manage_user {
     user { $user :
-      gid        => $group,
       ensure     => present,
+      gid        => $group,
       managehome => true,
     }
   }
@@ -76,8 +76,8 @@ class selendroid (
     ensure  => file,
     owner   => root,
     group   => root,
-    mode    => 755,
-    content => template("selendroid/startup.erb"),
+    mode    => '0755',
+    content => template('selendroid/startup.erb'),
     notify  => Service[$service_name],
   }
 
@@ -85,14 +85,14 @@ class selendroid (
     ensure  => file,
     owner   => root,
     group   => root,
-    mode    => 755,
+    mode    => '0755',
     content => template('selendroid/init-selendroid.erb'),
     notify  => Service[$service_name],
   }
 
   service { $service_name :
     ensure  => $service_ensure,
-    enable  => $service_enable, 
+    enable  => $service_enable,
     require => User[$user],
   }
 
