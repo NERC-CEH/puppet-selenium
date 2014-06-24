@@ -4,6 +4,8 @@
 #
 # === Parameters
 #
+# [*vendor*] The usb vendor which should be owned by the selendroid user
+#
 # === Authors
 #
 # Christopher Johnson - cjohn@ceh.ac.uk
