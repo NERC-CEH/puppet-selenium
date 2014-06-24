@@ -18,6 +18,7 @@ class selendroid (
   $user           = 'selendroid',
   $group          = 'selendroid',
   $manage_user    = true,
+  $manage_group   = true,
   $repo           = undef,
   $version        = undef
 ) {
@@ -26,7 +27,14 @@ class selendroid (
 
   if $manage_user {
     user { $user :
-      gid => $group,
+      gid    => $group,
+      ensure => present,
+    }
+  }
+
+  if $manage_group {
+    group { $group :
+      ensure => present,
     }
   }
 
@@ -37,19 +45,20 @@ class selendroid (
   }
 
   nexus::artifact { $installed_path :
-    nexus     => $nexus,
-    group     => 'io.selendroid',
-    artifact  => 'selendroid-standalone',
-    extension => 'with-dependencies.jar',
-    version   => $version,
-    repo      => $repo,
+    nexus      => $nexus,
+    group      => 'io.selendroid',
+    artifact   => 'selendroid-standalone',
+    extension  => 'jar',
+    classifier => 'with-dependencies',
+    version    => $version,
+    repo       => $repo,
   }
 
   file { "/etc/default/${service_name}" :
     ensure  => file,
     owner   => root,
     group   => root,
-    content => template("tomcat/default-selendroid.erb"),
+    content => template("selendroid/default-selendroid.erb"),
     notify  => Service[$service_name],
   }
 
