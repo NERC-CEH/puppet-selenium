@@ -5,4 +5,7 @@
 export ANDROID_HOME=<%=@android_home%>
 export JAVA_HOME=<%=@java_home%>
 
-exec $JAVA_HOME/bin/java -jar <%=@installed_path%>
+exec $JAVA_HOME/bin/java -jar <%=@installed_path%> \
+<%- if @keystore -%>
+  -keystore <%=@keystore%>
+<%- end -%>

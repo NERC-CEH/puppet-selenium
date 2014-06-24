@@ -12,6 +12,7 @@ class selendroid (
   $java_home,
   $android_home,
   $nexus,
+  $keystore       = '/home/selendroid/debug.keystore',
   $service_name   = 'selendroid',
   $service_ensure = true,
   $service_enable = true,
@@ -28,8 +29,9 @@ class selendroid (
 
   if $manage_user {
     user { $user :
-      gid    => $group,
-      ensure => present,
+      gid        => $group,
+      ensure     => present,
+      managehome => true,
     }
   }
 
@@ -74,8 +76,9 @@ class selendroid (
   }
 
   service { $service_name :
-    ensure => $service_ensure,
-    enable => $service_enable,  
+    ensure  => $service_ensure,
+    enable  => $service_enable, 
+    require => User[$user],
   }
 
   concat { $udev_rules_location :
