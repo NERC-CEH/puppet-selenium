@@ -22,6 +22,7 @@ class selendroid (
   $version        = undef
 ) {
   $installed_path = '/opt/selendroid/selendroid-server.jar'
+  $udev_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
 
   if $manage_user {
     user { $user :
@@ -64,5 +65,11 @@ class selendroid (
   service { $service_name :
     ensure => $service_ensure,
     enable => $service_enable,  
+  }
+
+  concat { $udev_rules_location :
+    owner => root,
+    group => root,
+    mode  => '0644',
   }
 }
