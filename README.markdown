@@ -1,5 +1,5 @@
 # Selendroid
-
+[![Build Status](https://travis-ci.org/NERC-CEH/puppet-selendroid.svg?branch=master)](https://travis-ci.org/NERC-CEH/puppet-selendroid)
 ## Overview
 
 This is the selendroid module. It sets up a selendroid server.
