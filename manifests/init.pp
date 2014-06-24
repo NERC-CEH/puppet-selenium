@@ -22,6 +22,7 @@ class selendroid (
   $repo           = undef,
   $version        = undef
 ) {
+  $wrapper_script = '/opt/selendroid/startup.sh'
   $installed_path = '/opt/selendroid/selendroid-server.jar'
   $udev_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
 
@@ -54,11 +55,12 @@ class selendroid (
     repo       => $repo,
   }
 
-  file { "/etc/default/${service_name}" :
+  file { $wrapper_script :
     ensure  => file,
     owner   => root,
     group   => root,
-    content => template("selendroid/default-selendroid.erb"),
+    mode    => 755,
+    content => template("selendroid/startup.erb"),
     notify  => Service[$service_name],
   }
 

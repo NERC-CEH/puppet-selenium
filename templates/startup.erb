@@ -1,0 +1,8 @@
+#! /bin/sh
+# This defaults file is managed by the selendroid puppet module.
+# Editing is futile !
+
+export ANDROID_HOME=<%=@android_home%>
+export JAVA_HOME=<%=@java_home%>
+
+exec $JAVA_HOME/bin/java -jar <%=@installed_path%>
