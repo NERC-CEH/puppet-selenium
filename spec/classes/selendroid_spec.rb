@@ -5,7 +5,7 @@ describe 'selendroid', :type => :class do
     :manage_user  => true,
     :java_home    => '/java/home',
     :android_home => '/android/home',
-    :nexus        => 'http://nexus/server.com'
+    :nexus        => 'https://oss.sonatype.org/service/local'
   } }
   
   it { should contain_user('selendroid') }
