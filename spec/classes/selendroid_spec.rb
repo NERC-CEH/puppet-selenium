@@ -9,5 +9,4 @@ describe 'selendroid', :type => :class do
   
   it { should contain_user('selendroid') }
   it { should contain_group('selendroid') }
-
 end
