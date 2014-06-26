@@ -6,7 +6,6 @@
 #
 # [*java_home*] the location of the java jdk to use
 # [*android_home*] the location of the android sdk
-# [*nexus*] The nexus server to obtain selendroid from
 # [*keystore*] the location of a keystore to use for selendroid. See
 #   [Launching Selendroid](http://selendroid.io/setup.html#launchingSelendroid)
 # [*service_name*] the service name selendroid should run as
@@ -16,6 +15,7 @@
 # [*group*] the group selendroid should run as
 # [*manage_user*] if the selendroid user should be managed
 # [*manage_group*] if the selendroid group should be managed
+# [*nexus*] The nexus server to obtain selendroid from
 # [*repo*] the nexus repository to obtain the selendroid server from
 # [*version*] the version of selendroid to deploy. Defaults to LATEST
 #
@@ -26,7 +26,6 @@
 class selendroid (
   $java_home,
   $android_home,
-  $nexus,
   $keystore       = '/home/selendroid/debug.keystore',
   $service_name   = 'selendroid',
   $service_ensure = true,
@@ -35,9 +34,12 @@ class selendroid (
   $group          = 'selendroid',
   $manage_user    = true,
   $manage_group   = true,
+  $nexus          = undef,
   $repo           = undef,
   $version        = undef
 ) {
+  include nexus
+
   $wrapper_script = '/opt/selendroid/startup.sh'
   $installed_path = '/opt/selendroid/selendroid-server.jar'
   $udev_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
