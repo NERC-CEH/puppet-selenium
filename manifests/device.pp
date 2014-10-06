@@ -13,13 +13,14 @@
 define selendroid::device (
   $vendor,
   $serial_number,
+  $device_link    = 'usb0',
   $reverse_tether = true,
   $adb_location   = $selendroid::adb_location,
   $netmask        = $selendroid::reverse_tether_netmask,
   $dns_server     = $selendroid::reverse_tether_dns_server,
-  $dns_backup     = $selendroid::reverse_tether_dns_backup
+  $dns_backup     = $selendroid::reverse_tether_dns_backup,
   $host_address   = '10.42.0.1',
-  $device_address = '10.42.0.2',
+  $device_address = '10.42.0.2'
 ) {
   # Manage the ownership of the device
   concat::fragment { "${name}_device" :
@@ -38,7 +39,7 @@ define selendroid::device (
       content => template('selendroid/reverse-tether.sh.erb'),
     }
 
-    concat::fragment { "${name}_device" :
+    concat::fragment { "${name}_tether" :
       target  => $selendroid::udev_reverse_tether_rules_location,
       content => template('selendroid/udev-reverse-tether-fragment.erb'),
     }
