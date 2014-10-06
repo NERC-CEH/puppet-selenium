@@ -26,23 +26,28 @@
 class selendroid (
   $java_home,
   $android_home,
-  $keystore       = '/home/selendroid/debug.keystore',
-  $service_name   = 'selendroid',
-  $service_ensure = true,
-  $service_enable = true,
-  $user           = 'selendroid',
-  $group          = 'selendroid',
-  $manage_user    = true,
-  $manage_group   = true,
-  $nexus          = undef,
-  $repo           = undef,
-  $version        = undef
+  $keystore                  = '/home/selendroid/debug.keystore',
+  $service_name              = 'selendroid',
+  $service_ensure            = true,
+  $service_enable            = true,
+  $user                      = 'selendroid',
+  $group                     = 'selendroid',
+  $manage_user               = true,
+  $manage_group              = true,
+  $nexus                     = undef,
+  $repo                      = undef,
+  $version                   = undef,
+  $reverse_tether_netmask    = '255.255.255.0',
+  $reverse_tether_dns_server = '8.8.8.8',
+  $reverse_tether_dns_backup = '8.8.4.4'
 ) {
   include nexus
 
+  $adb_location = "${android_home}/platform-tools/adb"
   $wrapper_script = '/opt/selendroid/startup.sh'
   $installed_path = '/opt/selendroid/selendroid-server.jar'
-  $udev_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
+  $udev_device_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
+  $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selendroid.rules'
 
   if $manage_user {
     user { $user :
@@ -98,7 +103,13 @@ class selendroid (
     require => User[$user],
   }
 
-  concat { $udev_rules_location :
+  concat { $udev_device_rules_location :
+    owner => root,
+    group => root,
+    mode  => '0644',
+  }
+
+  concat { $udev_reverse_tether_rules_location :
     owner => root,
     group => root,
     mode  => '0644',

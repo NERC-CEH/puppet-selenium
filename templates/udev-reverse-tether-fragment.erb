@@ -1,0 +1,2 @@
+# <%=@name%>
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="<%=@vendor%>", ATTR{serial}=="<%=@serial_number%>", RUN+="/sbin/start-stop-daemon --start --quiet --pidfile /var/run/<%=@name%>.pid --startas <%=@tether_setup%> --background --make-pidfile"
