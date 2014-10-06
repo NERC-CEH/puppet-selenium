@@ -14,13 +14,13 @@ describe 'selendroid::device', :type => :define do
     :serial_number => 'Ran40m'
   }}
 
-  it { should contain_concat__fragment('selendroid-device-fragment').with(
+  it { should contain_concat__fragment('selendroid-device_device').with(
     :target  => '/etc/udev/rules.d/51-selendroid.rules',
   ) }
 
   it { should contain_concat('/etc/udev/rules.d/51-selendroid.rules') }
 
-  it { should contain_concat__fragment('selendroid-reverse-tether-fragment').with(
+  it { should contain_concat__fragment('selendroid-device_tether').with(
     :target  => '/etc/udev/rules.d/81-selendroid.rules',
   ) }
 
