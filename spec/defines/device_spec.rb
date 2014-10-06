@@ -24,12 +24,12 @@ describe 'selendroid::device', :type => :define do
     :target  => '/etc/udev/rules.d/81-selendroid.rules',
   ) }
 
-   it { should contain_file('/opt/selendroid/selendroid-device-reverse-tether.sh').with(
-      :ensure => 'file',
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0744'
-    )
+  it { should contain_file('/opt/selendroid/selendroid-device-reverse-tether.sh').with(
+    :ensure => 'file',
+    :owner  => 'root',
+    :group  => 'root',
+    :mode   => '0744'
+  ) }
 
   it { should contain_concat('/etc/udev/rules.d/81-selendroid.rules') }
 end
