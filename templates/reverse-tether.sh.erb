@@ -1,5 +1,9 @@
 #! /bin/bash
-
+# This script will set up reverse tethering on your android device.
+#
+# YOUR DEVICE MUST BE ROOTED FOR THIS TO WORK
+#
+# @author Christopher Johnson (cjohn@ceh.ac.uk)
 ADB="<%=@adb_location%>"
 SERIAL_NUMBER="<%=@serial_number%>"
 HOST_ADDRESS="<%=@host_address%>"
@@ -10,10 +14,10 @@ DNS_SERVER1="<%=@dns_server%>"
 DNS_SERVER2="<%=@dns_backup%>"
 
 # The script must be run as root to manipulate the host networking
-#if [[ $(whoami) != "root" ]]; then
-#  echo "You must be root to run this script"
-#  exit 1
-#fi;
+if [[ $(whoami) != "root" ]]; then
+  echo "You must be root to run this script"
+  exit 1
+fi;
 
 $ADB -s $SERIAL_NUMBER -d wait-for-device
 echo "Turning on rndis on the device"
@@ -30,7 +34,6 @@ LINK_ADDR=`ifconfig -a | grep -F "$HW_ADDR" | grep -o '^\S*'`
 
 echo "Setting the host ip address for $LINK_ADDR"
 ifconfig $LINK_ADDR $HOST_ADDRESS netmask $NETMASK
-
 
 echo "Enabling ip_forwarding and NAT"
 echo 1 > /proc/sys/net/ipv4/ip_forward
