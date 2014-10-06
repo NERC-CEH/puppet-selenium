@@ -6,7 +6,7 @@ This is the selendroid module. It sets up a selendroid server.
 
 ## Module Description
 
-[Selendroid](selendroid.io) is a WedDriver server for android devices
+[Selendroid](selendroid.io) is a WebDriver server for android devices
 
 This selendroid module will obtain an installation of the selendroid standalone server
 from a nexus server and configure the server to run as a service under the selendroid user.
@@ -52,6 +52,11 @@ Manage a vendor usb device
 ## Limitations
 
 This module has been tested on ubuntu 14.04 lts
+
+Reverse tethering has been tested on:
+- HTC Desire X
+- Google Nexus 5
+- Google Nexus 7
 
 ## Contributors
 
