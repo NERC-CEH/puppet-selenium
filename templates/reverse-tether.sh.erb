@@ -5,6 +5,7 @@
 #
 # @author Christopher Johnson (cjohn@ceh.ac.uk)
 ADB="<%=@adb_location%>"
+ADB_USER="<%=@adb_user%>"
 SERIAL_NUMBER="<%=@serial_number%>"
 HOST_ADDRESS="<%=@host_address%>"
 DEVICE_ADDRESS="<%=@device_address%>"
@@ -19,6 +20,8 @@ if [[ $(whoami) != "root" ]]; then
   exit 1
 fi;
 
+echo "Starting adb server (if not already started)"
+su - $ADB_USER -c "$ADB start-server"
 $ADB -s $SERIAL_NUMBER -d wait-for-device
 echo "Turning on rndis on the device"
 $ADB -s $SERIAL_NUMBER shell su -c "setprop sys.usb.config rndis,adb"

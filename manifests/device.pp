@@ -14,6 +14,7 @@
 #   networking device. Usually this is usb0 or rndis0.
 # [*adb_location*] The location of adb to use for configuring reverse tethering
 #   on the android device.
+# [*adb_user*] The user which should be running the adb server
 # [*dns_server*] The dns server the android device should use
 # [*dns_backup*] The backup dns server the android device should use
 # [*host_address*] The ip address of the host which the android will be using as
@@ -30,6 +31,7 @@ define selendroid::device (
   $reverse_tether = $selendroid::reverse_tether,
   $device_link    = 'usb0',
   $adb_location   = $selendroid::adb_location,
+  $adb_user       = $selendroid::user,
   $netmask        = $selendroid::reverse_tether_netmask,
   $dns_server     = $selendroid::reverse_tether_dns_server,
   $dns_backup     = $selendroid::reverse_tether_dns_backup,
