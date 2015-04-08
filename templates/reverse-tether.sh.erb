@@ -26,6 +26,7 @@ $ADB -s $SERIAL_NUMBER -d wait-for-device
 echo "Turning on rndis on the device"
 $ADB -s $SERIAL_NUMBER shell su -c "setprop sys.usb.config rndis,adb"
 echo "Waiting for the device to reconnect"
+sleep 1
 $ADB -s $SERIAL_NUMBER -d wait-for-device
 
 echo "Determining the hosts network link"
