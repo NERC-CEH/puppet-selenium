@@ -22,12 +22,12 @@ fi;
 
 echo "Starting adb server (if not already started)"
 su - $ADB_USER -c "$ADB start-server"
-$ADB -s $SERIAL_NUMBER -d wait-for-device
+$ADB -s $SERIAL_NUMBER wait-for-device
 echo "Turning on rndis on the device"
 $ADB -s $SERIAL_NUMBER shell su -c "setprop sys.usb.config rndis,adb"
 echo "Waiting for the device to reconnect"
 sleep 1
-$ADB -s $SERIAL_NUMBER -d wait-for-device
+$ADB -s $SERIAL_NUMBER wait-for-device
 
 echo "Determining the hosts network link"
 # Identify usb port this device is connected to
