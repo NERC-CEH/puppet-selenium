@@ -23,7 +23,7 @@ class selenium::appium (
     provider => 'npm'
   }
 
-  file { $installed_path,
+  file { $installed_path :
     owner   => $user,
     group   => $group,
     require => Package['appium']
