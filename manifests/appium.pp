@@ -24,6 +24,7 @@ class selenium::appium (
   }
 
   file { $installed_path :
+    recurse => true,
     owner   => $user,
     group   => $group,
     require => Package['appium']
