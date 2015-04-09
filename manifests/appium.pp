@@ -15,7 +15,7 @@
 class selenium::appium (
   $user           = $selenium::user,
   $group          = $selenium::group
-  $installed_path = $selenium::appium_path
+  $installed_path = $selenium::appium_path,
 ) {
   package { 'appium' :
     ensure   => $version,

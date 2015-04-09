@@ -18,6 +18,7 @@
 #   reverse tethering
 # [*reverse_tether_dns_backup*] The default backup dns server to be used when
 #   reverse tethering
+# [*config_path*] The location where various selenium configuration will be saved
 #
 # === Authors
 #
@@ -34,7 +35,9 @@ class selenium (
   $reverse_tether            = true,
   $reverse_tether_netmask    = '255.255.255.0',
   $reverse_tether_dns_server = '8.8.8.8',
-  $reverse_tether_dns_backup = '8.8.4.4'
+  $reverse_tether_dns_backup = '8.8.4.4',
+  $config_path               = '/etc/selenium'
+  $appium_path               = '/usr/lib/node_modules/appium'
 ) {
 
   $adb_location = "${android_home}/platform-tools/adb"
@@ -55,10 +58,25 @@ class selenium (
     }
   }
 
+  # Create a location to put some node config files
+  file { $config_path :
+    ensure => directory,
+    owner   => $user,
+    group   => $group,
+  }
+
   file { '/opt/selenium' :
     ensure => directory,
     owner  => $user,
     group  => $group,
+  }
+
+  if $standalone_server {
+    file { '/opt/selenium/server.jar' :
+      ensure => file,
+      owner  => $user,
+      group  => $group,
+    }
   }
 
   concat { $udev_device_rules_location :
