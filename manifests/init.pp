@@ -40,7 +40,7 @@ class selenium (
   $reverse_tether_netmask    = '255.255.255.0',
   $reverse_tether_dns_server = '8.8.8.8',
   $reverse_tether_dns_backup = '8.8.4.4',
-  $config_path               = '/etc/selenium'
+  $config_path               = '/etc/selenium',
   $appium_path               = '/usr/lib/node_modules/appium'
 ) {
 
