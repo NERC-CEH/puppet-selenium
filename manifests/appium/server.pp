@@ -23,6 +23,7 @@ define selenium::appium::server (
   $wrapper_script = "/opt/selenium/appium-${name}-startup.sh"
   $service_name = "appium-${name}"
   $appium = "${selenium::appium}/bin/appium.js"
+  $user = $selenium::appium::user
   
   file { $node_config :
     ensure  => file,
