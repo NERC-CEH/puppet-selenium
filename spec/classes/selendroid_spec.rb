@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'selendroid', :type => :class do 
+describe 'selenium', :type => :class do 
   let(:default_facts) {{
     :concat_basedir => '/dne'
   }}
@@ -16,7 +16,7 @@ describe 'selendroid', :type => :class do
       :manage_group => false
     }) }
       
-    it { should contain_user('selendroid') }
+    it { should contain_user('selenium') }
   end
 
   describe 'when group is managed' do
@@ -24,7 +24,7 @@ describe 'selendroid', :type => :class do
     let(:params) { default_params.merge({
       :manage_group => true
     }) }
-    it { should contain_group('selendroid') }
+    it { should contain_group('selenium') }
   end
 
   describe 'when user isnt managed' do
@@ -33,7 +33,7 @@ describe 'selendroid', :type => :class do
       :manage_user  => false
     }) }
       
-    it { should_not contain_user('selendroid') }
+    it { should_not contain_user('selenium') }
   end
 
   describe 'when group isnt managed' do
@@ -41,25 +41,25 @@ describe 'selendroid', :type => :class do
     let(:params) { default_params.merge({
       :manage_group => false
     }) }
-    it { should_not contain_group('selendroid') }
+    it { should_not contain_group('selenium') }
   end
 
-  describe 'selendroid directory' do
+  describe 'selenium directory' do
     let(:facts) { default_facts }
     let(:params) { default_params }
-    it { should contain_file('/opt/selendroid').with(
+    it { should contain_file('/opt/selenium').with(
       :ensure => 'directory',
-      :owner  => 'selendroid',
-      :group  => 'selendroid'
+      :owner  => 'selenium',
+      :group  => 'selenium'
     )}
   end
 
   describe 'nexus artifact' do
     let(:facts) { default_facts }
     let(:params) { default_params }
-    it { should contain_nexus__artifact('/opt/selendroid/selendroid-server.jar').with(
-      :group      => 'io.selendroid',
-      :artifact   => 'selendroid-standalone',
+    it { should contain_nexus__artifact('/opt/selenium/selenium-server.jar').with(
+      :group      => 'io.selenium',
+      :artifact   => 'selenium-standalone',
       :extension  => 'jar',
       :classifier => 'with-dependencies'
     )}
@@ -68,27 +68,27 @@ describe 'selendroid', :type => :class do
   describe 'wrapper script' do
     let(:facts) { default_facts }
     let(:params) { default_params }
-    it { should contain_file('/opt/selendroid/startup.sh').with(
+    it { should contain_file('/opt/selenium/startup.sh').with(
       :ensure => 'file',
       :owner  => 'root',
       :group  => 'root',
       :mode   => '0755'
-    ).that_notifies('Service[selendroid]') }
+    ).that_notifies('Service[selenium]') }
   end
 
-  describe 'selendroid service' do
+  describe 'selenium service' do
     let(:facts) { default_facts }
     let(:params) { default_params }
-    it { should contain_file('/etc/init.d/selendroid').with(
+    it { should contain_file('/etc/init.d/selenium').with(
       :ensure => 'file',
       :owner  => 'root',
       :group  => 'root',
       :mode   => '0755'
-    ).that_notifies('Service[selendroid]')}
+    ).that_notifies('Service[selenium]')}
     
-    it { should contain_service('selendroid').with(
+    it { should contain_service('selenium').with(
       :ensure => true,
       :enable => true
-    ).that_requires('User[selendroid]')}
+    ).that_requires('User[selenium]')}
   end
 end

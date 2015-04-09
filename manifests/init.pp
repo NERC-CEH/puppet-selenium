@@ -1,23 +1,23 @@
-# == Class: selendroid
+# == Class: selenium
 #
-# A class obtain an installation of selendroid and register it as a service.
+# A class obtain an installation of selenium and register it as a service.
 #
 # === Parameters
 #
 # [*java_home*] the location of the java jdk to use
 # [*android_home*] the location of the android sdk
-# [*keystore*] the location of a keystore to use for selendroid. See
-#   [Launching Selendroid](http://selendroid.io/setup.html#launchingSelendroid)
-# [*service_name*] the service name selendroid should run as
-# [*service_ensure*] the ensure value of the selendroid service
-# [*service_enable*] if the selendroid service should be enabled
-# [*user*] the user selendroid should run as
-# [*group*] the group selendroid should run as
-# [*manage_user*] if the selendroid user should be managed
-# [*manage_group*] if the selendroid group should be managed
-# [*nexus*] The nexus server to obtain selendroid from
-# [*repo*] the nexus repository to obtain the selendroid server from
-# [*version*] the version of selendroid to deploy. Defaults to LATEST
+# [*keystore*] the location of a keystore to use for selenium. See
+#   [Launching selenium](http://selenium.io/setup.html#launchingselenium)
+# [*service_name*] the service name selenium should run as
+# [*service_ensure*] the ensure value of the selenium service
+# [*service_enable*] if the selenium service should be enabled
+# [*user*] the user selenium should run as
+# [*group*] the group selenium should run as
+# [*manage_user*] if the selenium user should be managed
+# [*manage_group*] if the selenium group should be managed
+# [*nexus*] The nexus server to obtain selenium from
+# [*repo*] the nexus repository to obtain the selenium server from
+# [*version*] the version of selenium to deploy. Defaults to LATEST
 # [*reverse_tether*] If reverse tethering should be enabled by default
 # [*reverse_tether_netmask*] The default netmask to be used when reverse 
 #   tethering
@@ -30,15 +30,15 @@
 #
 # Christopher Johnson - cjohn@ceh.ac.uk
 #
-class selendroid (
+class selenium (
   $java_home,
   $android_home,
-  $keystore                  = '/home/selendroid/debug.keystore',
-  $service_name              = 'selendroid',
+  $keystore                  = '/home/selenium/debug.keystore',
+  $service_name              = 'selenium',
   $service_ensure            = true,
   $service_enable            = true,
-  $user                      = 'selendroid',
-  $group                     = 'selendroid',
+  $user                      = 'selenium',
+  $group                     = 'selenium',
   $manage_user               = true,
   $manage_group              = true,
   $nexus                     = undef,
@@ -52,10 +52,10 @@ class selendroid (
   include nexus
 
   $adb_location = "${android_home}/platform-tools/adb"
-  $wrapper_script = '/opt/selendroid/startup.sh'
-  $installed_path = '/opt/selendroid/selendroid-server.jar'
-  $udev_device_rules_location = '/etc/udev/rules.d/51-selendroid.rules'
-  $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selendroid.rules'
+  $wrapper_script = '/opt/selenium/startup.sh'
+  $installed_path = '/opt/selenium/selenium-server.jar'
+  $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
+  $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
 
   if $manage_user {
     user { $user :
@@ -71,7 +71,7 @@ class selendroid (
     }
   }
 
-  file { '/opt/selendroid' :
+  file { '/opt/selenium' :
     ensure => directory,
     owner  => $user,
     group  => $group,
@@ -79,8 +79,8 @@ class selendroid (
 
   nexus::artifact { $installed_path :
     nexus      => $nexus,
-    group      => 'io.selendroid',
-    artifact   => 'selendroid-standalone',
+    group      => 'io.selenium',
+    artifact   => 'selenium-standalone',
     extension  => 'jar',
     classifier => 'with-dependencies',
     version    => $version,
@@ -92,7 +92,7 @@ class selendroid (
     owner   => root,
     group   => root,
     mode    => '0755',
-    content => template('selendroid/startup.erb'),
+    content => template('selenium/startup.erb'),
     notify  => Service[$service_name],
   }
 
@@ -101,7 +101,7 @@ class selendroid (
     owner   => root,
     group   => root,
     mode    => '0755',
-    content => template('selendroid/init-selendroid.erb'),
+    content => template('selenium/init-selenium.erb'),
     notify  => Service[$service_name],
   }
 

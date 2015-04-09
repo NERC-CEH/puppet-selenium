@@ -1,2 +1,2 @@
 # <%=@name%>
-SUBSYSTEM=="usb", ATTR{idVendor}=="<%=@vendor%>", ATTR{serial}=="<%=@serial_number%>", MODE="0666", GROUP="<%= scope.lookupvar('selendroid::group')%>"
+SUBSYSTEM=="usb", ATTR{idVendor}=="<%=@vendor%>", ATTR{serial}=="<%=@serial_number%>", MODE="0666", GROUP="<%= scope.lookupvar('selenium::group')%>"

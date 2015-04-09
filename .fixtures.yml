@@ -2,6 +2,5 @@ fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
     concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
-    nexus: "https://github.com/NERC-CEH/puppet-nexus.git"
   symlinks:
-    selendroid: "#{source_dir}"
+    selenium: "#{source_dir}"

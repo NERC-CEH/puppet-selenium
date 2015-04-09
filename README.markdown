@@ -1,42 +1,46 @@
-# Selendroid
-[![Build Status](https://travis-ci.org/NERC-CEH/puppet-selendroid.svg?branch=master)](https://travis-ci.org/NERC-CEH/puppet-selendroid)
+# selenium
+[![Build Status](https://travis-ci.org/NERC-CEH/puppet-selenium.svg?branch=master)](https://travis-ci.org/NERC-CEH/puppet-selenium)
 ## Overview
 
-This is the selendroid module. It sets up a selendroid server.
+This is the selenium module. It sets up a selenium server.
 
 ## Module Description
 
-[Selendroid](selendroid.io) is a WebDriver server for android devices
+[Selenium](http://www.seleniumhq.org/) automates browsers. 
 
-This selendroid module will obtain an installation of the selendroid standalone server
-from a nexus server and configure the server to run as a service under the selendroid user.
+This selenium module will obtain deploy the selenium standalone server and set it up to run
+as a service under the selenium user. The instance of selenium can run in either hub or node
+configurations.
+
+The module also enables instances of [Appium](http://appium.io/) to be deployed and configured
+as selenium grid nodes.
 
 It will not obtain the android sdk or java. Both of which are required for the server to run.
 
 ### Reverse Tethering
 
-The selendroid module is capable of setting up reverse tethering for your android device. In 
+The selenium module is capable of setting up reverse tethering for your android device. In 
 order for this to work your device *must be rooted*. If you do not require reverse you can 
-disable it by default by setting $reverse_tether to false on the selendroid class.
+disable it by default by setting $reverse_tether to false on the selenium class.
 
 Reverse tethering is configured to automatically set up when a device is connected to the host
 pc.
 
 ## Setup
 
-### What Selendroid affects
+### What selenium affects
 
-* Creates a service which is named selendroid by default
-* Manages a selendroid user and group. Used for running the server
-* Takes ownership of USB Devices (for the selendroid user)
+* Creates a service which is named selenium by default
+* Manages a selenium user and group. Used for running the server
+* Takes ownership of USB Devices (for the selenium user)
 * Configures reverse tethering of the devices
 * Runs on port 4444 by default
 
 ## Usage
 
-Create a Selendroid server
+Create a selenium server
 
-    class { 'selendroid' :
+    class { 'selenium' :
       java_home     => 'location/to/java/jdk',
       android_home  => 'location/to/android/sdk',
       nexus         => 'http://your.nexus.com/server',
@@ -44,7 +48,7 @@ Create a Selendroid server
 
 Manage a vendor usb device
    
-    selendroid::device { 'GoogleNexus5' :
+    selenium::device { 'GoogleNexus5' :
       vendor        => '18d1',
       serial_number => 'S31alNumB3r',
     }
