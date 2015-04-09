@@ -8,6 +8,8 @@
 # [*android_home*] the location of the android sdk
 # [*user*] the user selenium should run as
 # [*standalone_server*] the file location of the selenium standalone server
+# [*hub_host*] the ip or hostname of the selenium grid hub
+# [*hub_port*] the port which the hub is running on
 # [*group*] the group selenium should run as
 # [*manage_user*] if the selenium user should be managed
 # [*manage_group*] if the selenium group should be managed
@@ -28,6 +30,8 @@ class selenium (
   $java_home,
   $android_home,
   $standalone_server         = undef,
+  $hub_host                  = $fqdn,
+  $hub_port                  = 4444,
   $user                      = 'selenium',
   $group                     = 'selenium',
   $manage_user               = true,

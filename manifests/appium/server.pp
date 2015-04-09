@@ -3,8 +3,8 @@
 # Sets up an instance of the appium application to run as a service
 #
 define selenium::appium::server (
-  $hub                = $fqdn,
-  $hub_port           = 4444,
+  $hub_host           = $selenium::hub_host,
+  $hub_port           = $selenium::hub_port,
   $port               = 4723,
   $chromedriver_port  = 9515,
   $bootstrap_port     = 4724,
