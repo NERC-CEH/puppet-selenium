@@ -26,7 +26,7 @@ define selenium::server (
 
   $wrapper_script = "${selenium::selenium_dir}/selenium-${name}-startup.sh"
   $service_name = "selenium-${name}"
-  $grid_options = $role {
+  $role_options = $role {
     'host' => "-hubHost ${hub_host} -host ${host}",
     'node' => ""
   }
