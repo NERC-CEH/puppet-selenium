@@ -27,8 +27,8 @@ define selenium::server (
   $wrapper_script = "${selenium::selenium_dir}/selenium-${name}-startup.sh"
   $service_name = "selenium-${name}"
   $role_options = $role ? {
-    'host' => "-hubHost ${hub_host} -host ${host}",
-    'node' => ""
+    'node' => "-hubHost ${hub_host} -host ${host}",
+    'host' => "",
   }
 
   $pre_command = $headless ? {
@@ -55,8 +55,9 @@ define selenium::server (
   }
 
   service { $service_name :
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => User[$user],
+    ensure    => $service_ensure,
+    enable    => $service_enable,
+    require   => User[$user],
+    subscribe => File[$jar],
   }
 }
