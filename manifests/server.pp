@@ -9,8 +9,8 @@
 # Christopher Johnson - cjohn@ceh.ac.uk
 #
 define selenium::server (
-  $role              = undef,
-  $hub               = undef,
+  $role,
+  $hub_host          = $selenium::hub_host,
   $host              = $fqdn,
   $headless          = false,
   $service_enable    = true,
@@ -26,6 +26,10 @@ define selenium::server (
 
   $wrapper_script = "${selenium::selenium_dir}/selenium-${name}-startup.sh"
   $service_name = "selenium-${name}"
+  $grid_options = $role {
+    'host' => "-hubHost ${hub_host} -host ${host}",
+    'node' => ""
+  }
 
   $pre_command = $headless ? {
     true    => $headless_command,
