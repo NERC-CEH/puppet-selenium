@@ -6,10 +6,11 @@
 #
 # [*java_home*] the location of the java jdk to use
 # [*android_home*] the location of the android sdk
-# [*user*] the user selenium should run as
 # [*standalone_server*] the file location of the selenium standalone server
+# [*chromedriver*] the location of the chromedriver to deploy
 # [*hub_host*] the ip or hostname of the selenium grid hub
 # [*hub_port*] the port which the hub is running on
+# [*user*] the user selenium should run as
 # [*group*] the group selenium should run as
 # [*manage_user*] if the selenium user should be managed
 # [*manage_group*] if the selenium group should be managed
@@ -21,6 +22,7 @@
 # [*reverse_tether_dns_backup*] The default backup dns server to be used when
 #   reverse tethering
 # [*config_path*] The location where various selenium configuration will be saved
+# [*appium_path*] The location where appium is expected to be installed
 #
 # === Authors
 #
@@ -30,6 +32,7 @@ class selenium (
   $java_home,
   $android_home              = undef,
   $standalone_server         = undef,
+  $chromedriver              = undef,
   $hub_host                  = $fqdn,
   $hub_port                  = 4444,
   $user                      = 'selenium',
@@ -84,6 +87,13 @@ class selenium (
       source => $standalone_server,
       owner  => $user,
       group  => $group,
+    }
+  }
+
+  if $chromedriver {
+    file { '/usr/bin/chromedriver' :
+      mode   => 755,
+      source => $chromedriver,
     }
   }
 
