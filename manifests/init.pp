@@ -28,7 +28,7 @@
 #
 class selenium (
   $java_home,
-  $android_home,
+  $android_home              = undef,
   $standalone_server         = undef,
   $hub_host                  = $fqdn,
   $hub_port                  = 4444,
