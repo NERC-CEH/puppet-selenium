@@ -92,7 +92,10 @@ class selenium (
 
   if $chromedriver {
     file { '/usr/bin/chromedriver' :
-      mode   => 755,
+      ensure => file,
+      owner  => root,
+      group  => root,
+      mode   => '0755',
       source => $chromedriver,
     }
   }
