@@ -17,13 +17,13 @@ define selenium::server (
   $service_ensure    = true,
   $headless_command  = 'xvfb-run',
   $java_home         = $selenium::java_home,
-  $standalone_server = $selenium::standalone_server,
   $user              = $selenium::appium::user
 ) {
-  if ! $standalone_server {
+  if ! $selenium::standalone_server {
     fail('You must provide the selenium base class with a selenium standalone server jar file to run')
   }
 
+  $jar = $selenium::selenium_jar
   $wrapper_script = "${selenium::selenium_dir}/selenium-${name}-startup.sh"
   $service_name = "selenium-${name}"
   $role_options = $role ? {

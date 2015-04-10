@@ -2,4 +2,4 @@
 # This defaults file is managed by the selenium puppet module.
 # Editing is futile !
 
-exec <%=@pre_command%> <%=@java_home%>/bin/java -jar <%=@standalone_server%> -role <%=@role%> <%=role_options%>
+exec <%=@pre_command%> <%=@java_home%>/bin/java -jar <%=@jar%> -role <%=@role%> <%=role_options%>
