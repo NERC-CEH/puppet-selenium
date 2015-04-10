@@ -28,7 +28,7 @@ define selenium::server (
   $service_name = "selenium-${name}"
   $role_options = $role ? {
     'node' => "-hubHost ${hub_host} -host ${host}",
-    'host' => "",
+    'hub'  => "",
   }
 
   $pre_command = $headless ? {
