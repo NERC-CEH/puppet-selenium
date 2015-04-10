@@ -80,6 +80,7 @@ class selenium (
   if $standalone_server {
     file { $selenium_jar :
       ensure => file,
+      source => $standalone_server,
       owner  => $user,
       group  => $group,
     }
