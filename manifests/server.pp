@@ -17,7 +17,7 @@ define selenium::server (
   $service_ensure    = true,
   $headless_command  = 'xvfb-run',
   $java_home         = $selenium::java_home,
-  $user              = $selenium::appium::user
+  $user              = $selenium::user
 ) {
   if ! $selenium::standalone_server {
     fail('You must provide the selenium base class with a selenium standalone server jar file to run')
