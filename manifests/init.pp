@@ -44,9 +44,10 @@ class selenium (
   $appium_path               = '/usr/lib/node_modules/appium'
 ) {
 
-  $adb_location = "${android_home}/platform-tools/adb"
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
+
+  $adb_location = "${android_home}/platform-tools/adb"
   $selenium_dir = '/opt/selenium'
   $selenium_jar = "${selenium_dir}/server.jar"
 
@@ -90,11 +91,13 @@ class selenium (
     owner => root,
     group => root,
     mode  => '0644',
+    force => true,
   }
 
   concat { $udev_reverse_tether_rules_location :
     owner => root,
     group => root,
     mode  => '0644',
+    force => true,
   }
 }
