@@ -12,23 +12,24 @@ define selenium::appium::server (
   $android_home       = $selenium::android_home,
   $host               = $fqdn,
   $service_enable     = true,
-  $service_ensure     = true
+  $service_ensure     = true,
+  $user               = $selenium::appium::user,
+  $group              = $selenium::appium::group
 ) {
   if ! defined(Class['selenium::appium']) {
     fail('You must include the appium class in order to create an appium server')
   }
 
   # Create the appium node configuration
-  $node_config = "${selenium::config_path}/appium-${name}.json"
-  $wrapper_script = "/opt/selenium/appium-${name}-startup.sh"
-  $service_name = "appium-${name}"
-  $appium = "${selenium::appium_path}/bin/appium.js"
-  $user = $selenium::appium::user
+  $node_config    = "${selenium::config_path}/appium-${name}.json"
+  $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
+  $service_name   = "appium-${name}"
+  $appium         = "${selenium::appium_path}/bin/appium.js"
   
   file { $node_config :
     ensure  => file,
-    owner   => $selenium::appium::user,
-    group   => $selenium::appium::group,
+    owner   => $user,
+    group   => $group,
     mode    => '0644',
     content => template('selenium/appium-nodeconfig.erb'),
     notify  => Service[$service_name],
@@ -56,7 +57,7 @@ define selenium::appium::server (
     ensure  => $service_ensure,
     enable  => $service_enable,
     require => [
-      User[$selenium::appium::user],
+      User[$user],
       Package['appium'],
     ],
   }

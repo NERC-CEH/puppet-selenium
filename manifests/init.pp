@@ -47,6 +47,8 @@ class selenium (
   $adb_location = "${android_home}/platform-tools/adb"
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
+  $selenium_dir = '/opt/selenium'
+  $selenium_jar = "${selenium_dir}/server.jar"
 
   if $manage_user {
     user { $user :
@@ -69,14 +71,14 @@ class selenium (
     group   => $group,
   }
 
-  file { '/opt/selenium' :
+  file { $selenium_dir :
     ensure => directory,
     owner  => $user,
     group  => $group,
   }
 
   if $standalone_server {
-    file { '/opt/selenium/server.jar' :
+    file { $selenium_jar :
       ensure => file,
       owner  => $user,
       group  => $group,
