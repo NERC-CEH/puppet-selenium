@@ -51,8 +51,12 @@ class selenium (
   $adb_location = "${android_home}/platform-tools/adb"
 
   $config_path  = '/etc/selenium'
-  $selenium_dir = '/opt/selenium'
   $selenium_jar = "${selenium_dir}/server.jar"
+
+  $selenium_dir = $::osfamily ? {
+    Darwin  => "/Users/${user}/selenium",
+    default => '/opt/selenium',
+  }
 
   if $manage_user {
     user { $user :
