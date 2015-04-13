@@ -100,17 +100,4 @@ class selenium (
     }
   }
 
-  concat { $udev_device_rules_location :
-    owner => root,
-    group => root,
-    mode  => '0644',
-    force => true,
-  }
-
-  concat { $udev_reverse_tether_rules_location :
-    owner => root,
-    group => root,
-    mode  => '0644',
-    force => true,
-  }
 }

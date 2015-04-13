@@ -38,6 +38,9 @@ define selenium::device (
   $host_address   = '10.42.0.1',
   $device_address = '10.42.0.2'
 ) {
+  if ! defined(Class['selenium::udev']) {
+    fail('You must include the selenium udev in order to manage a device')
+  }
   # Manage the ownership of the device
   concat::fragment { "${name}_device" :
     target  => $selenium::udev_device_rules_location,
