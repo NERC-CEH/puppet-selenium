@@ -36,6 +36,6 @@ define selenium::server (
 
   selenium::service { "selenium-${name}":
     command   => concat($command, $role_options),
-    subscribe => File[$jar],
+    subscribe => File[$selenium::selenium_jar],
   }
 }
