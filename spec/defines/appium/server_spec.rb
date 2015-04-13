@@ -22,5 +22,5 @@ describe 'selenium::appium::server', :type => :define do
     :group          => 'selenium',
     :service_enable => true,
     :service_ensure => true
-  ).that_subscribes_to('File["/etc/selenium/appium-iOS.json"]') }
+  ).that_subscribes_to('File[/etc/selenium/appium-iOS.json]') }
 end
