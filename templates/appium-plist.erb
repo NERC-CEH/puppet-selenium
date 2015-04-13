@@ -13,12 +13,14 @@
     <array>
       <string>/usr/local/bin/node</string>
       <string><%=@appium%></string>
+      <string>--nodeconfig</string>
+      <string><%=@node_config%></string>
+      <string>--port</string>
+      <string><%=@port%></string>
       <string>--session-override</string>
       <string>--log-no-colors</string>
       <string>--log-level</string>
-      <string>warn</string>
-      <string>--nodeconfig</string>
-      <string><%=@node_config%></string>
+      <string>warn</string>      
     </array>
     <key>Debug</key>
     <true/>
