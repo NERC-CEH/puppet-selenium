@@ -50,7 +50,7 @@ define selenium::device (
   if $reverse_tether {
     # Define a reverse tether script for this device and run this when the 
     # device is connected
-    $tether_setup = "/opt/selenium/${name}-reverse-tether.sh"
+    $tether_setup = "${selenium::selenium_dir}/${name}-reverse-tether.sh"
     file { $tether_setup :
       ensure  => file,
       mode    => 0744,
