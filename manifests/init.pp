@@ -21,7 +21,6 @@
 #   reverse tethering
 # [*reverse_tether_dns_backup*] The default backup dns server to be used when
 #   reverse tethering
-# [*appium_path*] The location where appium is expected to be installed
 #
 # === Authors
 #
@@ -41,8 +40,7 @@ class selenium (
   $reverse_tether            = true,
   $reverse_tether_netmask    = '255.255.255.0',
   $reverse_tether_dns_server = '8.8.8.8',
-  $reverse_tether_dns_backup = '8.8.4.4',
-  $appium_path               = '/usr/lib/node_modules/appium'
+  $reverse_tether_dns_backup = '8.8.4.4'
 ) {
 
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
@@ -56,6 +54,11 @@ class selenium (
   $selenium_dir = $::osfamily ? {
     Darwin  => "/Users/${user}/selenium",
     default => '/opt/selenium',
+  }
+
+  $appium_path = $::osfamily ? {
+    Darwin  => '/usr/local/lib/node_modules/appium',
+    default => '/usr/lib/node_modules/appium',
   }
 
   if $manage_user {
