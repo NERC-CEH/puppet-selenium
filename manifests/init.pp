@@ -59,6 +59,11 @@ class selenium (
     default => '/usr/lib/node_modules/appium',
   }
 
+  $appium_executable = $::osfamily ? {
+    Darwin  => '/usr/local/lib/node_modules/appium/bin/appium.js',
+    default => '/usr/lib/node_modules/appium/bin/appium.js',
+  }
+
   $node_executable = $::osfamily ? {
     Darwin  => '/usr/local/bin/node',
     default => '/usr/bin/node',

@@ -11,8 +11,17 @@
     <string><%=@plist_label%></string>
     <key>ProgramArguments</key>
     <array>
-      <string><%=@wrapper_script%></string>
+      <% @command.each do  | part | -%>
+        <string><%=part%></string>
+      <% end -%>
     </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <% @environment.each_pair do |key, value| -%>
+        <key><%=key%></key>
+        <string><%=value%></string>
+      <% end -%>
+    </dict>
     <key>Debug</key>
     <true/>
     <key>RunAtLoad</key>

@@ -22,8 +22,6 @@ define selenium::appium::server (
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
   $appium         = "${selenium::node_executable} ${selenium::appium_path}/bin/appium.js"
-  $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
-  $service_name   = "appium-${name}"
   
   file { $node_config :
     ensure  => file,
@@ -32,52 +30,20 @@ define selenium::appium::server (
     mode    => '0644',
     content => template('selenium/appium-nodeconfig.erb'),
   }
-
-  file { $wrapper_script :
-    ensure  => file,
-    owner   => $user,
-    group   => $group,
-    mode    => '0755',
-    content => template('selenium/appium-startup.erb'),
-  }
-
-  case $::osfamily {
-    Darwin: {
-      $plist_label = "com.appium.${name}.server"
-      $plist = "/Users/${user}/Library/LaunchAgents/${plist_label}.plist"
-      # Mac OS X requires appium to run as an interactive user (i.e. logged in)
-      # I don't think puppet can start a user specific service, you will need to 
-      # (re)log the $user in after this puppet run.
-      file { $plist :
-        ensure  => file,
-        owner   => $user,
-        group   => $group,
-        mode    => '0644',
-        content => template('selenium/service-plist.erb'),
-      }
-    }
-    default: {
-      file { "/etc/init.d/${service_name}" :
-        ensure  => file,
-        owner   => root,
-        group   => root,
-        mode    => '0755',
-        content => template('selenium/init-service.erb'),
-        notify  => Service[$service_name],
-      }
-
-      service { $service_name :
-        ensure    => $service_ensure,
-        enable    => $service_enable,
-        require   => [
-          User[$user],
-          Package['appium'],
-        ],
-        subscribe => [
-          File[$node_config],
-          File[$wrapper_script]
-        ],
-      }
-    }
+  
+  selenium::service { "appium-${name}":
+    environment => {
+      'ANDROID_HOME': $android_home,
+    },
+    command   => [
+      $selenium::node_executable, $selenium::appium_executable,
+      '--port',              $port,
+      '--chromedriver-port', $chromedriver_port,
+      '--bootstrap-port',    $bootstrap_port,
+      '--nodeconfig',        $node_config,
+      '--log-level',         'warn',
+      '--log-no-colors'
+    ],
+    subscribe => File[$node_config],
   }
 }
