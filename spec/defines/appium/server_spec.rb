@@ -19,7 +19,7 @@ describe 'selenium::appium::server', :type => :define do
 
   it { should contain_selenium__service('appium-iOS').with(
     :user           => 'selenium',
-    :group          => 'selenium'
+    :group          => 'selenium',
     :service_enable => true,
     :service_ensure => true
   ).that_subscribes_to('File["/etc/selenium/appium-iOS.json"]') }
