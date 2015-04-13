@@ -4,7 +4,6 @@
 #
 # === Parameters
 #
-# [*java_home*] the location of the java jdk to use
 # [*android_home*] the location of the android sdk
 # [*standalone_server*] the file location of the selenium standalone server
 # [*chromedriver*] the location of the chromedriver to deploy
@@ -27,7 +26,6 @@
 # Christopher Johnson - cjohn@ceh.ac.uk
 #
 class selenium (
-  $java_home                 = undef,
   $android_home              = undef,
   $standalone_server         = undef,
   $chromedriver              = undef,
@@ -45,7 +43,7 @@ class selenium (
 
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
-
+  $java         = '/usr/bin/java'
   $adb_location = "${android_home}/platform-tools/adb"
 
   $config_path  = '/etc/selenium'
