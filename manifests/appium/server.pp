@@ -21,7 +21,7 @@ define selenium::appium::server (
 
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
-  $appium         = "${selenium::appium_path}/bin/appium.js"
+  $appium         = "${selenium::node_executable} ${selenium::appium_path}/bin/appium.js"
   $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
   $service_name   = "appium-${name}"
   

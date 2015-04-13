@@ -27,7 +27,7 @@
 # Christopher Johnson - cjohn@ceh.ac.uk
 #
 class selenium (
-  $java_home,
+  $java_home                 = undef,
   $android_home              = undef,
   $standalone_server         = undef,
   $chromedriver              = undef,
@@ -59,6 +59,11 @@ class selenium (
   $appium_path = $::osfamily ? {
     Darwin  => '/usr/local/lib/node_modules/appium',
     default => '/usr/lib/node_modules/appium',
+  }
+
+  $node_executable = $::osfamily ? {
+    Darwin  => '/usr/local/bin/node',
+    default => '/usr/bin/node',
   }
 
   if $manage_user {
