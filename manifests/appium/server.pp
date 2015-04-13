@@ -32,33 +32,40 @@ define selenium::appium::server (
     group   => $group,
     mode    => '0644',
     content => template('selenium/appium-nodeconfig.erb'),
-    notify  => Service[$service_name],
   }
 
-  file { $wrapper_script :
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    content => template('selenium/appium-startup.erb'),
-    notify  => Service[$service_name],
-  }
+  case $::osfamily {
+    Darwin: {}
+    default: {
+      file { $wrapper_script :
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        content => template('selenium/appium-startup.erb'),
+      }
+      
+      file { "/etc/init.d/${service_name}" :
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        content => template('selenium/init-service.erb'),
+        notify  => Service[$service_name],
+      }
 
-  file { "/etc/init.d/${service_name}" :
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    content => template('selenium/init-service.erb'),
-    notify  => Service[$service_name],
-  }
-
-  service { $service_name :
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => [
-      User[$user],
-      Package['appium'],
-    ],
+      service { $service_name :
+        ensure    => $service_ensure,
+        enable    => $service_enable,
+        require   => [
+          User[$user],
+          Package['appium'],
+        ],
+        subscribe => [
+          File[$node_config],
+          File[$wrapper_script]
+        ],
+      }
+    }
   }
 }
