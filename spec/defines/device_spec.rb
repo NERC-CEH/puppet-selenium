@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'selenium::device', :type => :define do
   let :pre_condition do
-    'class { "selenium::udev": }'
+    'include selenium
+    include selenium::udev'
   end
 
   let(:facts) { { :concat_basedir => '/dne' } }

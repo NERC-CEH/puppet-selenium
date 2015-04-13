@@ -47,12 +47,13 @@ class selenium (
   $adb_location = "${android_home}/platform-tools/adb"
 
   $config_path  = '/etc/selenium'
-  $selenium_jar = "${selenium_dir}/server.jar"
 
   $selenium_dir = $::osfamily ? {
     Darwin  => "/Users/${user}/selenium",
     default => '/opt/selenium',
   }
+  
+  $selenium_jar = "${selenium_dir}/server.jar"
 
   $appium_path = $::osfamily ? {
     Darwin  => '/usr/local/lib/node_modules/appium',
@@ -102,6 +103,7 @@ class selenium (
       source => $standalone_server,
       owner  => $user,
       group  => $group,
+      mode   => '0755',
     }
   }
 

@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'selenium::service', :type => :define do
-  
+  let(:pre_condition) { 'include selenium' }
+
   let(:facts) { { :concat_basedir => '/dne' } }
 
   let(:title) {'selenium' }
@@ -22,8 +23,8 @@ describe 'selenium::service', :type => :define do
 
   it { should contain_file('/etc/init.d/selenium').with(
     :ensure => 'file',
-    :owner  => 'selenium',
-    :group  => 'selenium',
+    :owner  => 'root',
+    :group  => 'root',
     :mode   => '0755'
   ).that_notifies('Service[selenium]')}
 
