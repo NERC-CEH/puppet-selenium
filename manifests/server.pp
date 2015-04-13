@@ -1,8 +1,18 @@
 # == Define: selenium::server
 #
+# Creates an instance of the selenium standalone server with a particular
+# role (either hub or node)
 #
 # === Parameters
 #
+# [*role*]             Either hub or node, the role this server should run as
+# [*hub_host*]         If role is node, the hub to use as a host
+# [*host*]             The hostname of this machine as it should be registered to the hub
+# [*headless*]         If this server should run headlessly (Linux only)
+# [*service_enable*]   If the service for this server should be enabled
+# [*service_ensure*]   The ensure value for the underlying service
+# [*headless_command*] The command to use to start the server headlessly
+# [*user*]             The user to run the service as
 #
 # === Authors
 #
@@ -35,7 +45,10 @@ define selenium::server (
   $command = concat($java, ['-jar', $selenium::selenium_jar, '-role', $role])
 
   selenium::service { "selenium-${name}":
-    command   => concat($command, $role_options),
-    subscribe => File[$selenium::selenium_jar],
+    command        => concat($command, $role_options),
+    subscribe      => File[$selenium::selenium_jar],
+    user           => $user,
+    service_ensure => $service_ensure,
+    service_enable => $service_enable,
   }
 }

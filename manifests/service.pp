@@ -1,18 +1,20 @@
 # == Define: selenium::server
+# 
+# An internal define which sets up a command to run as a service. On Mac, this will occur when
+# $user logs in. On linux this will run as a real service.
 #
-#
-# === Parameters
-#
-#
+# SHOULD NOT BE CALLED OUTSIDE OF THIS MODULE
 # === Authors
 #
 # Christopher Johnson - cjohn@ceh.ac.uk
 #
 define selenium::service (
-  $environment  = {},
-  $command      = [],
-  $user         = $selenium::user,
-  $service_name = $name,
+  $user,
+  $service_enable,
+  $service_ensure,
+  $environment    = {},
+  $command        = [],
+  $service_name   = $name,
 ) {
 
   case $::osfamily {

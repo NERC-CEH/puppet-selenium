@@ -2,6 +2,23 @@
 #
 # Sets up an instance of the appium application to run as a service
 #
+# === Parameters
+# [*hub_host*]          The host which this appium instance should connect to
+# [*hub_port*]          The port which the hub is running on
+# [*port*]              which appium should run on
+# [*chromedriver_port*] the port which the chromedriver will run on
+# [*bootstrap_port*]    not too sure what this is (check the appium docs)
+# [*android_home*]      location of your android sdk installation. Needed for driving android
+# [*host*]              the hostname which the hub can contact this node on
+# [*service_enable*]    the enabled value of the service (ubuntu only)
+# [*service_ensure*]    the ensure value of the service (ubnutu only)
+# [*user*]              which should run the appium service
+# [*group*]             which should run the appium service
+#
+# === Authors
+#
+# Christopher Johnson - cjohn@ceh.ac.uk
+#
 define selenium::appium::server (
   $hub_host           = $selenium::hub_host,
   $hub_port           = $selenium::hub_port,
@@ -32,10 +49,10 @@ define selenium::appium::server (
   }
   
   selenium::service { "appium-${name}":
-    environment => {
+    environment    => {
       'ANDROID_HOME' => $android_home,
     },
-    command   => [
+    command        => [
       $selenium::node_executable, $selenium::appium_executable,
       '--port',              $port,
       '--chromedriver-port', $chromedriver_port,
@@ -44,6 +61,9 @@ define selenium::appium::server (
       '--log-level',         'warn',
       '--log-no-colors'
     ],
-    subscribe => File[$node_config],
+    user           => $user,
+    service_ensure => $service_ensure,
+    service_enable => $service_enable,
+    subscribe      => File[$node_config],
   }
 }

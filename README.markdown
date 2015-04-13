@@ -2,11 +2,21 @@
 [![Build Status](https://travis-ci.org/NERC-CEH/puppet-selenium.svg?branch=master)](https://travis-ci.org/NERC-CEH/puppet-selenium)
 ## Overview
 
-This is the selenium module. It sets up a selenium server.
+This is the selenium module. It sets up a selenium grid infrastructure with appium nodes
 
 ## Module Description
 
-[Selenium](http://www.seleniumhq.org/) automates browsers. 
+[Selenium](http://www.seleniumhq.org/) automates browsers.
+
+The web is a very complicated place to develop in. It is very easy to end up with an application
+which doesn't quite function as expected in one of your target browsers. Modern life has exacerbated
+the issue as the chances are your target browsers will cover varying mobiles and tablets. 
+
+We use this module to setup and manage a cross platform selenium grid which contains various
+physical android devices, a Mac Mini (used for Safari and the iOS simulator) and a few Ubuntu 
+servers (for chrome and firefox)
+
+### What does this module actually do?
 
 This selenium module will obtain deploy the selenium standalone server and set it up to run
 as a service under the selenium user. The instance of selenium can run in either hub or node
@@ -38,16 +48,41 @@ pc.
 
 ## Usage
 
-Create a selenium server
+Create a selenium grid hub (tested on Ubuntu 14.04)
 
-    class { 'selenium' :
-      java_home     => 'location/to/java/jdk',
-      android_home  => 'location/to/android/sdk',
-      nexus         => 'http://your.nexus.com/server',
+    include selenium
+    selenium::server { 'hub': 
+      role => 'hub'
     }
 
-Manage a vendor usb device
-   
+Create a selenium testing node. This configuration will require xvfb to be setup and managed outside 
+of this module
+
+    include selenium
+    selenium::server { 'node':
+      role     => 'node'
+      headless => true
+      hub_host => 'server.name.of.hub'
+    }
+
+Create a selenium server node on a mac mini
+
+    # Create a node to test safari on
+    include selenium
+    selenium::server { 'node':
+      role     => 'node'
+      hub_host => 'server.name.of.hub'
+    }
+
+    # Set up appium to test against with the iOS simulator
+    include selenium::appium # Manage and install appium
+    selenium::appium::server { 'appium-for-ios-sim':
+       port => 4723
+    }
+
+Manage an android device such that it reverse tethers on connection (Ubuntu only)
+    
+    include selenium::udev
     selenium::device { 'GoogleNexus5' :
       vendor        => '18d1',
       serial_number => 'S31alNumB3r',
@@ -55,7 +90,7 @@ Manage a vendor usb device
 
 ## Limitations
 
-This module has been tested on ubuntu 14.04 lts
+This module has been tested on Ubuntu 14.04 LTS and Mac OS X Yosemite
 
 Reverse tethering has been tested on:
 - HTC Desire X
