@@ -8,7 +8,6 @@ define selenium::appium::server (
   $port               = 4723,
   $chromedriver_port  = 9515,
   $bootstrap_port     = 4724,
-  $java_home          = $selenium::java_home,
   $android_home       = $selenium::android_home,
   $host               = $fqdn,
   $service_enable     = true,
@@ -44,7 +43,7 @@ define selenium::appium::server (
         mode    => '0755',
         content => template('selenium/appium-startup.erb'),
       }
-      
+
       file { "/etc/init.d/${service_name}" :
         ensure  => file,
         owner   => root,
