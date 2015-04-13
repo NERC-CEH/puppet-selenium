@@ -32,10 +32,10 @@ define selenium::server (
     default => [$selenium::java],
   }
 
-  $command = concat($java, ['-jar', $selenium::selenium_jar, '-role', $role], $role_options)
+  $command = concat($java, ['-jar', $selenium::selenium_jar, '-role', $role])
 
   selenium::service { "selenium-${name}":
-    command   => $command,
+    command   => concat($command, $role_options),
     subscribe => File[$jar],
   }
 }
