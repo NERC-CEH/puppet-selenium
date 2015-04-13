@@ -10,6 +10,7 @@
 #
 define selenium::service (
   $user,
+  $group,
   $service_enable,
   $service_ensure,
   $environment    = {},

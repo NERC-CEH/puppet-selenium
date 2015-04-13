@@ -62,6 +62,7 @@ define selenium::appium::server (
       '--log-no-colors'
     ],
     user           => $user,
+    group          => $group,
     service_ensure => $service_ensure,
     service_enable => $service_enable,
     subscribe      => File[$node_config],

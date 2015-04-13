@@ -13,6 +13,7 @@
 # [*service_ensure*]   The ensure value for the underlying service
 # [*headless_command*] The command to use to start the server headlessly
 # [*user*]             The user to run the service as
+# [*group*]            which should run the appium service
 #
 # === Authors
 #
@@ -27,6 +28,7 @@ define selenium::server (
   $service_ensure    = true,
   $headless_command  = 'xvfb-run',
   $user              = $selenium::user
+  $group              = $selenium::group
 ) {
   if ! $selenium::standalone_server {
     fail('You must provide the selenium base class with a selenium standalone server jar file to run')
@@ -48,6 +50,7 @@ define selenium::server (
     command        => concat($command, $role_options),
     subscribe      => File[$selenium::selenium_jar],
     user           => $user,
+    group          => $group,
     service_ensure => $service_ensure,
     service_enable => $service_enable,
   }
