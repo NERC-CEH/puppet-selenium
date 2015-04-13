@@ -21,7 +21,6 @@ define selenium::appium::server (
 
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
-  $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
   $service_name   = "appium-${name}"
   $appium         = "${selenium::appium_path}/bin/appium.js"
   
@@ -34,8 +33,22 @@ define selenium::appium::server (
   }
 
   case $::osfamily {
-    Darwin: {}
+    Darwin: {
+      $plist_label = "com.appium.${name}.server"
+      $plist = "/Users/${user}/Library/LaunchAgents/${plist_label}.plist"
+      # Mac OS X requires appium to run as an interactive user (i.e. logged in)
+      # I don't think puppet can start a user specific service, you will need to 
+      # (re)log the $user in after this puppet run.
+      file { $plist :
+        ensure  => file,
+        owner   => $user,
+        group   => $group,
+        mode    => '0644',
+        content => template('selenium/appium-plist.erb'),
+      }
+    }
     default: {
+      $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
       file { $wrapper_script :
         ensure  => file,
         owner   => root,
