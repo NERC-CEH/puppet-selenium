@@ -33,7 +33,7 @@ define selenium::appium::server (
   
   selenium::service { "appium-${name}":
     environment => {
-      'ANDROID_HOME': $android_home
+      'ANDROID_HOME' => $android_home,
     },
     command   => [
       $selenium::node_executable, $selenium::appium_executable,
