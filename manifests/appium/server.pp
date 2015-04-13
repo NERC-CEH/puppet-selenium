@@ -21,8 +21,8 @@ define selenium::appium::server (
 
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
-  $service_name   = "appium-${name}"
   $appium         = "${selenium::appium_path}/bin/appium.js"
+  $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
   
   file { $node_config :
     ensure  => file,
@@ -30,6 +30,14 @@ define selenium::appium::server (
     group   => $group,
     mode    => '0644',
     content => template('selenium/appium-nodeconfig.erb'),
+  }
+
+  file { $wrapper_script :
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    content => template('selenium/appium-startup.erb'),
   }
 
   case $::osfamily {
@@ -44,19 +52,11 @@ define selenium::appium::server (
         owner   => $user,
         group   => $group,
         mode    => '0644',
-        content => template('selenium/appium-plist.erb'),
+        content => template('selenium/service-plist.erb'),
       }
     }
     default: {
-      $wrapper_script = "${selenium::selenium_dir}/appium-${name}-startup.sh"
-      file { $wrapper_script :
-        ensure  => file,
-        owner   => root,
-        group   => root,
-        mode    => '0755',
-        content => template('selenium/appium-startup.erb'),
-      }
-
+      $service_name   = "appium-${name}"
       file { "/etc/init.d/${service_name}" :
         ensure  => file,
         owner   => root,
