@@ -6,8 +6,7 @@ describe 'selenium', :type => :class do
   }}
   
   let(:default_params) {{
-    :java_home    => '/java/home',
-    :android_home => '/android/home'
+    :standalone_server => 'server.jar'
   }}
   
   describe 'when user is managed' do
@@ -54,41 +53,15 @@ describe 'selenium', :type => :class do
     )}
   end
 
-  describe 'nexus artifact' do
+  describe 'standalone_server' do
     let(:facts) { default_facts }
     let(:params) { default_params }
-    it { should contain_nexus__artifact('/opt/selenium/selenium-server.jar').with(
-      :group      => 'io.selenium',
-      :artifact   => 'selenium-standalone',
-      :extension  => 'jar',
-      :classifier => 'with-dependencies'
+    it { should contain_file('/opt/selenium/server.jar').with(
+      :ensure => 'file',
+      :owner  => 'selenium',
+      :group  => 'selenium',
+      :mode   => '0755',
+      :source => 'server.jar'
     )}
-  end
-
-  describe 'wrapper script' do
-    let(:facts) { default_facts }
-    let(:params) { default_params }
-    it { should contain_file('/opt/selenium/startup.sh').with(
-      :ensure => 'file',
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0755'
-    ).that_notifies('Service[selenium]') }
-  end
-
-  describe 'selenium service' do
-    let(:facts) { default_facts }
-    let(:params) { default_params }
-    it { should contain_file('/etc/init.d/selenium').with(
-      :ensure => 'file',
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0755'
-    ).that_notifies('Service[selenium]')}
-    
-    it { should contain_service('selenium').with(
-      :ensure => true,
-      :enable => true
-    ).that_requires('User[selenium]')}
   end
 end

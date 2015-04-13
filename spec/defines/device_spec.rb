@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'selenium::device', :type => :define do
   let :pre_condition do
-    'class { "selenium": java_home => "/java/home", android_home => "/android/home", }'
+    'class { "selenium::udev": }'
   end
 
   let(:facts) { { :concat_basedir => '/dne' } }
