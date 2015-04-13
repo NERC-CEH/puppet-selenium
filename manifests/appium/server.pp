@@ -29,8 +29,8 @@ define selenium::appium::server (
   $host               = $fqdn,
   $service_enable     = true,
   $service_ensure     = true,
-  $user               = $selenium::appium::user,
-  $group              = $selenium::appium::group
+  $user               = $selenium::user,
+  $group              = $selenium::group
 ) {
   if ! defined(Class['selenium::appium']) {
     fail('You must include the appium class in order to create an appium server')
