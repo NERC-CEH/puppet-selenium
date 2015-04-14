@@ -1,10 +1,5 @@
 {
-  "capabilities": [
-    {
-      "browserName": "Appium <%=@name%>",
-      "maxInstances": 1
-    }
-  ],
+  "capabilities": <%=@capabilities.to_json%>,
   "configuration": {
     "cleanUpCycle":2000,
     "timeout":30000,
@@ -12,7 +7,7 @@
     "host": "<%=@host%>",
     "url": "http://<%=@host%>:<%=@port%>/wd/hub",
     "port": "<%=@port%>",
-    "maxSession": 1,
+    "maxSession": <%=@max_session%>,
     "register": true,
     "registerCycle": 5000,
     "hubPort": "<%=@hub_port%>",

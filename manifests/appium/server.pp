@@ -14,6 +14,8 @@
 # [*service_ensure*]    the ensure value of the service (ubnutu only)
 # [*user*]              which should run the appium service
 # [*group*]             which should run the appium service
+# [*max_session*]       maximum amount of concurrent tests which can be run on this node
+# [*capabilities*]      a list of selenium browser capabilities
 #
 # === Authors
 #
@@ -30,7 +32,11 @@ define selenium::appium::server (
   $service_enable     = true,
   $service_ensure     = true,
   $user               = $selenium::user,
-  $group              = $selenium::group
+  $group              = $selenium::group,
+  $max_session        = 1,
+  $capabilities       = [
+    {browserName => "Appium ${name}", maxInstances => 1}
+  ]
 ) {
   if ! defined(Class['selenium::appium']) {
     fail('You must include the appium class in order to create an appium server')
@@ -45,7 +51,7 @@ define selenium::appium::server (
     owner   => $user,
     group   => $group,
     mode    => '0644',
-    content => template('selenium/appium-nodeconfig.erb'),
+    content => template('selenium/grid2-nodeconfig.erb'),
   }
   
   selenium::service { "appium-${name}":
