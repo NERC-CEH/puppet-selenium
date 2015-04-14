@@ -1,21 +1,16 @@
 {
-  "capabilities": [
-    {
-      "browserName": "Appium <%=@name%>",
-      "maxInstances": 1
-    }
-  ],
+  "capabilities": <%=@capabilities.to_json%>,
   "configuration": {
     "cleanUpCycle":2000,
     "timeout":30000,
     "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
     "host": "<%=@host%>",
     "url": "http://<%=@host%>:<%=@port%>/wd/hub",
-    "port": "<%=@port%>",
-    "maxSession": 1,
+    "port": <%=@port%>,
+    "maxSession": <%=@max_session%>,
     "register": true,
     "registerCycle": 5000,
-    "hubPort": "<%=@hub_port%>",
+    "hubPort": <%=@hub_port%>,
     "hubHost": "<%=@hub_host%>"
   }
 }

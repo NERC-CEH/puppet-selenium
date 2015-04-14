@@ -70,8 +70,9 @@ Create a selenium server node on a mac mini
     # Create a node to test safari on
     include selenium
     selenium::server { 'node':
-      role     => 'node'
-      hub_host => 'server.name.of.hub'
+      role        => 'node'
+      hub_host    => 'server.name.of.hub',
+      capabilites => [{browserName => 'safari', maxInstances => 5}]
     }
 
     # Set up appium to test against with the iOS simulator
