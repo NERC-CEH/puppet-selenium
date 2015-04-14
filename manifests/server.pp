@@ -47,7 +47,7 @@ define selenium::server (
 
   $node_config = "${selenium::config_path}/selenium-${name}.json"
   
-  if $role = 'node' {
+  if $role == 'node' {
     file { $node_config :
       ensure  => file,
       owner   => $user,
