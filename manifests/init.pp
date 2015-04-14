@@ -70,6 +70,16 @@ class selenium (
     default => '/usr/bin/node',
   }
 
+  $capabilities = $::osfamily ? {
+    Darwin  => [
+      {browserName => "safari",  maxInstances => 5}
+    ],
+    default => [
+      {browserName => "chrome",  maxInstances => 5},
+      {browserName => "firefox", maxInstances => 5}
+    ],
+  }
+
   if $manage_user {
     user { $user :
       ensure     => present,

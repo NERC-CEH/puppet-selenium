@@ -36,10 +36,7 @@ define selenium::server (
   $user              = $selenium::user,
   $group             = $selenium::group,
   $max_session       = 5,
-  $capabilities      = [
-    {browserName => "chrome",  maxInstances => 5},
-    {browserName => "firefox", maxInstances => 5}
-  ]
+  $capabilities      = $selenium::capabilities
 ) {
   if ! $selenium::standalone_server {
     fail('You must provide the selenium base class with a selenium standalone server jar file to run')
