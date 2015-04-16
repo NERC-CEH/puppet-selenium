@@ -14,6 +14,8 @@
 # [*service_ensure*]    the ensure value of the service (ubnutu only)
 # [*user*]              which should run the appium service
 # [*group*]             which should run the appium service
+# [*headless*]          If this server should run headlessly (Linux only)
+# [*headless_command*]  The command to use to start the server headlessly
 # [*max_session*]       maximum amount of concurrent tests which can be run on this node
 # [*capabilities*]      a list of selenium browser capabilities
 #
@@ -33,6 +35,8 @@ define selenium::appium::server (
   $service_ensure     = true,
   $user               = $selenium::user,
   $group              = $selenium::group,
+  $headless           = false,
+  $headless_command   = $selenium::headless_command,
   $max_session        = 1,
   $capabilities       = [
     {browserName => "Appium ${name}", maxInstances => 1}
@@ -55,10 +59,10 @@ define selenium::appium::server (
   }
   
   selenium::service { "appium-${name}":
-    environment    => {
+    environment      => {
       'ANDROID_HOME' => $android_home,
     },
-    command        => [
+    command          => [
       $selenium::node_executable, $selenium::appium_executable,
       '--port',              $port,
       '--chromedriver-port', $chromedriver_port,
@@ -67,10 +71,12 @@ define selenium::appium::server (
       '--log-level',         'warn',
       '--log-no-colors'
     ],
-    user           => $user,
-    group          => $group,
-    service_ensure => $service_ensure,
-    service_enable => $service_enable,
-    subscribe      => File[$node_config],
+    user             => $user,
+    group            => $group,
+    service_ensure   => $service_ensure,
+    service_enable   => $service_enable,
+    subscribe        => File[$node_config],
+    headless         => $headless,
+    headless_command => $headless_command,
   }
 }

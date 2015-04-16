@@ -20,6 +20,8 @@
 #   reverse tethering
 # [*reverse_tether_dns_backup*] The default backup dns server to be used when
 #   reverse tethering
+# [*headless_command*] The command to run by default when a service should be 
+#   run headlessly
 #
 # === Authors
 #
@@ -38,7 +40,8 @@ class selenium (
   $reverse_tether            = true,
   $reverse_tether_netmask    = '255.255.255.0',
   $reverse_tether_dns_server = '8.8.8.8',
-  $reverse_tether_dns_backup = '8.8.4.4'
+  $reverse_tether_dns_backup = '8.8.4.4',
+  $headless_command          = 'xvfb-run -a'
 ) {
 
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'

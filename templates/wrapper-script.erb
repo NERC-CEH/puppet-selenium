@@ -7,4 +7,4 @@ export ANDROID_HOME=<%=@android_home%>
   export <%=key%>=<%=value%>
 <% end -%>
 
-exec <%= @command.join(' ') %>
+exec <%= @actual_command.join(' ') %>

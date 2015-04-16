@@ -11,9 +11,9 @@
 # [*port*]             which this selenium node/hub will run on
 # [*host*]             The hostname of this machine as it should be registered to the hub
 # [*headless*]         If this server should run headlessly (Linux only)
+# [*headless_command*] The command to use to start the server headlessly
 # [*service_enable*]   If the service for this server should be enabled
 # [*service_ensure*]   The ensure value for the underlying service
-# [*headless_command*] The command to use to start the server headlessly
 # [*user*]             The user to run the service as
 # [*group*]            which should run the appium service
 # [*max_session*]      maximum amount of concurrent tests which can be run on this node
@@ -30,9 +30,9 @@ define selenium::server (
   $port              = 5555,
   $host              = $fqdn,
   $headless          = false,
+  $headless_command  = $selenium::headless_command,
   $service_enable    = true,
   $service_ensure    = true,
-  $headless_command  = 'xvfb-run',
   $user              = $selenium::user,
   $group             = $selenium::group,
   $max_session       = 5,
@@ -60,19 +60,16 @@ define selenium::server (
     'hub'  => ['-port', $port],
   }
 
-  $java = $headless ? {
-    true    => [$headless_command, $selenium::java],
-    default => [$selenium::java],
-  }
-
-  $command = concat($java, ['-jar', $selenium::selenium_jar, '-role', $role])
+  $command = [$selenium::java, '-jar', $selenium::selenium_jar, '-role', $role]
 
   selenium::service { "selenium-${name}":
-    command        => concat($command, $role_options),
-    subscribe      => File[$selenium::selenium_jar],
-    user           => $user,
-    group          => $group,
-    service_ensure => $service_ensure,
-    service_enable => $service_enable,
+    command          => concat($command, $role_options),
+    subscribe        => File[$selenium::selenium_jar],
+    user             => $user,
+    group            => $group,
+    service_ensure   => $service_ensure,
+    service_enable   => $service_enable,
+    headless         => $headless,
+    headless_command => $headless_command,
   }
 }

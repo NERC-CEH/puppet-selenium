@@ -13,10 +13,18 @@ define selenium::service (
   $group,
   $service_enable,
   $service_ensure,
+  $headless,
+  $headless_command,
   $environment    = {},
   $command        = [],
   $service_name   = $name,
 ) {
+  # Check if we need to run this service headlessly. THIS DOES NOT WORK ON 
+  # Darwin or Windows
+  $actual_command = $headless ? {
+    true    => concat($headless_command, $command),
+    default => $command,
+  }
 
   case $::osfamily {
     Darwin: {
