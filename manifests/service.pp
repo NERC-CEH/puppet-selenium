@@ -22,7 +22,7 @@ define selenium::service (
   # Check if we need to run this service headlessly. THIS DOES NOT WORK ON 
   # Darwin or Windows
   $actual_command = $headless ? {
-    true    => concat($headless_command, $command),
+    true    => concat([$headless_command], $command),
     default => $command,
   }
 
