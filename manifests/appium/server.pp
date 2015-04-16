@@ -39,7 +39,7 @@ define selenium::appium::server (
   $headless_command   = $selenium::headless_command,
   $max_session        = 1,
   $capabilities       = [
-    {browserName => "Appium ${name}", maxInstances => 1}
+    {browserName => "Appium ${name}", maxInstances => 1, platform => 'MAC'}
   ]
 ) {
   if ! defined(Class['selenium::appium']) {
