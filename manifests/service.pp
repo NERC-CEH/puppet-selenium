@@ -13,11 +13,11 @@ define selenium::service (
   $group,
   $service_enable,
   $service_ensure,
-  $headless,
-  $headless_command,
-  $environment    = {},
-  $command        = [],
-  $service_name   = $name,
+  $headless         = false,
+  $headless_command = '',
+  $environment      = {},
+  $command          = [],
+  $service_name     = $name,
 ) {
   # Check if we need to run this service headlessly. THIS DOES NOT WORK ON 
   # Darwin or Windows
