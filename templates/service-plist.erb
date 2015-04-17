@@ -11,7 +11,7 @@
     <string><%=@plist_label%></string>
     <key>ProgramArguments</key>
     <array>
-      <% @actual_command.map(&:to_str).reject(&:empty?).each do  | part | -%>
+      <% @actual_command.map(&:to_s).reject(&:empty?).each do  | part | -%>
         <string><%=part%></string>
       <% end -%>
     </array>
