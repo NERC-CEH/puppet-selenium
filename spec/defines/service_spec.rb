@@ -46,4 +46,13 @@ describe 'selenium::service', :type => :define do
 
     it { should contain_file('/Users/selenium/Library/LaunchAgents/com.selenium.selenium.server.plist')}
   end
+
+  context "on a Windows OS" do
+    let(:facts) {{ 
+      :concat_basedir => '/dne',
+      :osfamily => 'windows'
+    }}
+
+    it { should contain_file('c:/Users/selenium/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/selenium-selenium.bat')}
+  end
 end
