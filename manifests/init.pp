@@ -7,6 +7,7 @@
 # [*android_home*] the location of the android sdk
 # [*standalone_server*] the file location of the selenium standalone server
 # [*chromedriver*] the location of the chromedriver to deploy
+# [*iedriver*] the location of the ie driver to deploy (windows only)
 # [*hub_host*] the ip or hostname of the selenium grid hub
 # [*hub_port*] the port which the hub is running on
 # [*user*] the user selenium should run as
@@ -31,6 +32,7 @@ class selenium (
   $android_home              = undef,
   $standalone_server         = undef,
   $chromedriver              = undef,
+  $iedriver                  = undef,
   $hub_host                  = $fqdn,
   $hub_port                  = 4444,
   $user                      = 'selenium',
@@ -152,4 +154,13 @@ class selenium (
     }
   }
 
+  if $iedriver {
+    file { "${selenium_dir}/IEDriverServer.exe" :
+      ensure => file,
+      owner  => $user,
+      group  => $group,
+      mode   => '0755',
+      source => $iedriver,
+    }
+  }
 }
