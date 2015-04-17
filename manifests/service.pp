@@ -41,6 +41,17 @@ define selenium::service (
         content => template('selenium/service-plist.erb'),
       }
     }
+    windows: {
+      $batch = "c:/Users/${user}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/selenium-${service_name}.bat"
+
+      file { $batch : 
+        ensure  => file,
+        owner   => $user,
+        group   => $group,
+        mode    => '0755',
+        content => template('selenium/wrapper-batch.erb'),
+      }
+    }
     default: {
       $wrapper_script = "${selenium::selenium_dir}/${service_name}-startup.sh"
 

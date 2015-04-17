@@ -76,7 +76,6 @@ define selenium::appium::server (
 
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
-  $appium         = "${selenium::node_executable} ${selenium::appium_path}/bin/appium.js"
   
   file { $node_config :
     ensure  => file,
@@ -87,7 +86,7 @@ define selenium::appium::server (
   }
   
   $command = [
-    $selenium::node_executable, $selenium::appium_executable,
+    $selenium::node_executable, "${selenium::appium_path}/bin/appium.js",
     '--port',                 $port,
     '--chromedriver-port',    $chromedriver_port,
     '--bootstrap-port',       $bootstrap_port,

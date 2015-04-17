@@ -27,6 +27,14 @@ as selenium grid nodes.
 
 It will not obtain the android sdk or java. Both of which are required for the server to run.
 
+### Things to note
+
+Selenium tends to require some display to render the browsers it is testing on. On Linux you
+can use Xvfb to create a virtual display to test on. However on Mac and Windows, you will find
+that the user you use to manage selenium must be logged in (to have access to the desktop).
+
+Therefore selenium on **Windows** and **Mac** will only start up when the *selenium* user logs in.
+
 ### Reverse Tethering
 
 The selenium module is capable of setting up reverse tethering for your android device. In 
@@ -81,6 +89,23 @@ Create a selenium server node on a mac mini
        port => 4723
     }
 
+Create a selenium server node on windows
+
+    class { 'selenium': 
+      manage_user       => false,
+      manage_group      => false,
+      user              => 'Selenium',
+      group             => 'Users',
+      standalone_server => "d:/apps/selenium-server-standalone-2.45.0.jar",
+      chromedriver      => 'd:/apps/chromedriver.exe',
+      iedriver          => 'd:/apps/IEDriver.exe',
+    }
+
+    selenium::server { 'node' :
+      role     => 'node',
+      hub_host => server.name.of.hub',,
+    }
+
 Manage an android device such that it reverse tethers on connection (Ubuntu only)
     
     include selenium::udev
@@ -91,7 +116,7 @@ Manage an android device such that it reverse tethers on connection (Ubuntu only
 
 ## Limitations
 
-This module has been tested on Ubuntu 14.04 LTS and Mac OS X Yosemite
+This module has been tested on Ubuntu 14.04 LTS, Windows Server 2008 and Mac OS X Yosemite
 
 Reverse tethering has been tested on:
 - HTC Desire X

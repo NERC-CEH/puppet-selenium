@@ -7,6 +7,7 @@
 # [*android_home*] the location of the android sdk
 # [*standalone_server*] the file location of the selenium standalone server
 # [*chromedriver*] the location of the chromedriver to deploy
+# [*iedriver*] the location of the ie driver to deploy (windows only)
 # [*hub_host*] the ip or hostname of the selenium grid hub
 # [*hub_port*] the port which the hub is running on
 # [*user*] the user selenium should run as
@@ -31,6 +32,7 @@ class selenium (
   $android_home              = undef,
   $standalone_server         = undef,
   $chromedriver              = undef,
+  $iedriver                  = undef,
   $hub_host                  = $fqdn,
   $hub_port                  = 4444,
   $user                      = 'selenium',
@@ -46,13 +48,22 @@ class selenium (
 
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
-  $java         = '/usr/bin/java'
+  
+  $java = $::osfamily ? {
+    windows => 'java',
+    default => '/usr/bin/java',
+  }
+  
   $adb_location = "${android_home}/platform-tools/adb"
 
-  $config_path  = '/etc/selenium'
+  $config_path  = $::osfamily ? {
+    windows => 'c:/Program Files/selenium/conf',
+    default => '/etc/selenium',
+  }
 
   $selenium_dir = $::osfamily ? {
     Darwin  => "/Users/${user}/selenium",
+    windows => 'c:/Program Files/selenium',
     default => '/opt/selenium',
   }
   
@@ -60,23 +71,30 @@ class selenium (
 
   $appium_path = $::osfamily ? {
     Darwin  => '/usr/local/lib/node_modules/appium',
+    windows => 'c:/Program Files/nodejs/node_modules/appium',
     default => '/usr/lib/node_modules/appium',
-  }
-
-  $appium_executable = $::osfamily ? {
-    Darwin  => '/usr/local/lib/node_modules/appium/bin/appium.js',
-    default => '/usr/lib/node_modules/appium/bin/appium.js',
   }
 
   $node_executable = $::osfamily ? {
     Darwin  => '/usr/local/bin/node',
+    windows => 'c:/Program Files/nodejs/node',
     default => '/usr/bin/node',
+  }
+
+  $chromedriver_path = $::osfamily ? {
+    windows => "${selenium_dir}/chromedriver.exe",
+    default => '/usr/bin/chromedriver',
   }
 
   $capabilities = $::osfamily ? {
     Darwin  => [
       {browserName => "safari",  maxInstances => 5}
     ],
+	windows => [
+      {browserName => "chrome",            maxInstances => 5},
+      {browserName => "firefox",           maxInstances => 5},
+      {browserName => "internet explorer", maxInstances => 1}
+	],
     default => [
       {browserName => "chrome",  maxInstances => 5},
       {browserName => "firefox", maxInstances => 5}
@@ -121,7 +139,7 @@ class selenium (
   }
 
   if $chromedriver {
-    file { '/usr/bin/chromedriver' :
+    file { $chromedriver_path :
       ensure => file,
       owner  => $user,
       group  => $group,
@@ -130,4 +148,13 @@ class selenium (
     }
   }
 
+  if $iedriver {
+    file { "${selenium_dir}/IEDriverServer.exe" :
+      ensure => file,
+      owner  => $user,
+      group  => $group,
+      mode   => '0755',
+      source => $iedriver,
+    }
+  }
 }
