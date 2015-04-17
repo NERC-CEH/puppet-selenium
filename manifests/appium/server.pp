@@ -20,6 +20,7 @@
 # ---
 #   Lots of appium command switches see (http://appium.io/slate/en/master/?ruby#server-flags)
 # ---
+# [*custom_arguments*]  to be appended to the executable if unhandled by this module
 # [*capabilities*]      a list of selenium browser capabilities
 #
 # === Authors
@@ -64,8 +65,9 @@ define selenium::appium::server (
   $strict_caps              = false,
   $isolate_sim_device       = false,
   $suppress_adb_kill_server = false,
+  $custom_arguments         = [],
   $capabilities             = [
-    {browserName => "safari", maxInstances => 1, platform => 'MAC'}
+    {browserName => "Appium ${name}", maxInstances => 1, platform => 'MAC'}
   ]
 ) {
   if ! defined(Class['selenium::appium']) {
@@ -84,41 +86,43 @@ define selenium::appium::server (
     content => template('selenium/grid2-nodeconfig.erb'),
   }
   
+  $command = [
+    $selenium::node_executable, $selenium::appium_executable,
+    '--port',                 $port,
+    '--chromedriver-port',    $chromedriver_port,
+    '--bootstrap-port',       $bootstrap_port,
+    '--nodeconfig',           $node_config,
+    '--log-level',            'warn',
+    $session_override         ? { true => '--session-override',         default => ''},
+    $full_reset               ? { true => '--full-reset',               default => ''},
+    $no_reset                 ? { true => '--no-reset',                 default => ''},
+    $pre_launch               ? { true => '--pre-launch',               default => ''},
+    $log_timestamp            ? { true => '--log-timestamp',            default => ''},
+    $local_timezone           ? { true => '--local-timezone',           default => ''},
+    $log_no_colors            ? { true => '--log-no-colors',            default => ''},
+    $native_instruments_lib   ? { true => '--native-instruments-lib',   default => ''},
+    $app_wait_package         ? { true => '--app-wait-package',         default => ''},
+    $app_wait_activity        ? { true => '--app-wait-activity',        default => ''},
+    $android_coverage         ? { true => '--android-coverage',         default => ''},
+    $safari                   ? { true => '--safari',                   default => ''},
+    $default_device           ? { true => '--default-device',           default => ''},
+    $force_iphone             ? { true => '--force-iphone',             default => ''},
+    $force_ipad               ? { true => '--force-ipad',               default => ''},
+    $show_sim_log             ? { true => '--show-sim-log',             default => ''},
+    $show_ios_log             ? { true => '--show-ios-log',             default => ''},
+    $use_keystore             ? { true => '--use-keystore',             default => ''},
+    $no_perms_check           ? { true => '--no-perms-check',           default => ''},
+    $keep_keychains           ? { true => '--keep-keychains',           default => ''},
+    $strict_caps              ? { true => '--strict-caps',              default => ''},
+    $isolate_sim_device       ? { true => '--isolate-sim-device',       default => ''},
+    $suppress_adb_kill_server ? { true => '--suppress-adb-kill-server', default => ''}
+  ]
+
   selenium::service { "appium-${name}":
     environment      => {
       'ANDROID_HOME' => $android_home,
     },
-    command          => [
-      $selenium::node_executable, $selenium::appium_executable,
-      '--port',                 $port,
-      '--chromedriver-port',    $chromedriver_port,
-      '--bootstrap-port',       $bootstrap_port,
-      '--nodeconfig',           $node_config,
-      '--log-level',            'warn',
-      $session_override         ? { true => '--session-override',         default => ''},
-      $full_reset               ? { true => '--full-reset',               default => ''},
-      $no_reset                 ? { true => '--no-reset',                 default => ''},
-      $pre_launch               ? { true => '--pre-launch',               default => ''},
-      $log_timestamp            ? { true => '--log-timestamp',            default => ''},
-      $local_timezone           ? { true => '--local-timezone',           default => ''},
-      $log_no_colors            ? { true => '--log-no-colors',            default => ''},
-      $native_instruments_lib   ? { true => '--native-instruments-lib',   default => ''},
-      $app_wait_package         ? { true => '--app-wait-package',         default => ''},
-      $app_wait_activity        ? { true => '--app-wait-activity',        default => ''},
-      $android_coverage         ? { true => '--android-coverage',         default => ''},
-      $safari                   ? { true => '--safari',                   default => ''},
-      $default_device           ? { true => '--default-device',           default => ''},
-      $force_iphone             ? { true => '--force-iphone',             default => ''},
-      $force_ipad               ? { true => '--force-ipad',               default => ''},
-      $show_sim_log             ? { true => '--show-sim-log',             default => ''},
-      $show_ios_log             ? { true => '--show-ios-log',             default => ''},
-      $use_keystore             ? { true => '--use-keystore',             default => ''},
-      $no_perms_check           ? { true => '--no-perms-check',           default => ''},
-      $keep_keychains           ? { true => '--keep-keychains',           default => ''},
-      $strict_caps              ? { true => '--strict-caps',              default => ''},
-      $isolate_sim_device       ? { true => '--isolate-sim-device',       default => ''},
-      $suppress_adb_kill_server ? { true => '--suppress-adb-kill-server', default => ''}
-    ],
+    command          => concat($command, $custom_arguments),
     user             => $user,
     group            => $group,
     service_ensure   => $service_ensure,
