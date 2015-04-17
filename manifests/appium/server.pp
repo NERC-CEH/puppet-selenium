@@ -65,7 +65,7 @@ define selenium::appium::server (
   $isolate_sim_device       = false,
   $suppress_adb_kill_server = false,
   $capabilities             = [
-    {browserName => "Appium ${name}", maxInstances => 1, platform => 'MAC'}
+    {browserName => "safari", maxInstances => 1, platform => 'MAC'}
   ]
 ) {
   if ! defined(Class['selenium::appium']) {
