@@ -1,0 +1,10 @@
+REM This defaults file is managed by the selenium puppet module.
+REM Editing is futile !
+
+set PATH=%PATH%;"<%= scope.lookupvar('selenium::selenium_dir') %>"
+
+<% @environment.each_pair do |key, value| -%>
+  set <%=key%>="<%=value%>""
+<% end -%>
+
+<%= @actual_command.map { |val| (val.include? ' ')? "\"#{val}\"" : val }.join(' ') %>
