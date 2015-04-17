@@ -17,6 +17,7 @@
 # [*user*]             The user to run the service as
 # [*group*]            which should run the appium service
 # [*max_session*]      maximum amount of concurrent tests which can be run on this node
+# [*custom_arguments*] to be appended to the executable if unhandled by this module
 # [*capabilities*]     a list of selenium browser capabilities
 #
 # === Authors
@@ -36,6 +37,7 @@ define selenium::server (
   $user              = $selenium::user,
   $group             = $selenium::group,
   $max_session       = 5,
+  $custom_arguments  = [],
   $capabilities      = $selenium::capabilities
 ) {
   if ! $selenium::standalone_server {
@@ -60,10 +62,10 @@ define selenium::server (
     'hub'  => ['-port', $port],
   }
 
-  $command = [$selenium::java, '-jar', $selenium::selenium_jar, '-role', $role]
+  $command = concat([$selenium::java, '-jar', $selenium::selenium_jar, '-role', $role], $role_options)
 
   selenium::service { "selenium-${name}":
-    command          => concat($command, $role_options),
+    command          => concat($command, $custom_arguments),
     subscribe        => File[$selenium::selenium_jar],
     user             => $user,
     group            => $group,
