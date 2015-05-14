@@ -44,6 +44,11 @@ disable it by default by setting $reverse_tether to false on the selenium class.
 Reverse tethering is configured to automatically set up when a device is connected to the host
 pc.
 
+Below shows an animation of real devices which are reverse tethered being used for testing via
+appium.
+
+![Mobile testing](mobile-devices.gif)
+
 ## Setup
 
 ### What selenium affects
