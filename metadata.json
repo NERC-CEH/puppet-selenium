@@ -1,6 +1,6 @@
 {
   "name": "ceh-selenium",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "Centre for Ecology & Hydrology",
   "license": "GPL-2.0",
   "summary": "Sets up a selenium grid infrastructure with appium nodes",

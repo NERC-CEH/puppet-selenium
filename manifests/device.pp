@@ -2,8 +2,8 @@
 #
 # A device definition, which should be set as being owned by the selenium user.
 #
-# Optionally this define can manage the set up of reverse tethering when the device
-# is connected. The device must be rooted for this to work.
+# Optionally this define can manage the set up of reverse tethering when the
+# device is connected. The device must be rooted for this to work.
 #
 # === Parameters
 #
@@ -18,7 +18,7 @@
 # [*dns_server*] The dns server the android device should use
 # [*dns_backup*] The backup dns server the android device should use
 # [*host_address*] The ip address of the host which the android will be using as
-#   gateway 
+#   gateway
 # [*device_address*] The ip address the android device will be assigned
 #
 # === Authors
@@ -48,12 +48,12 @@ define selenium::device (
   }
 
   if $reverse_tether {
-    # Define a reverse tether script for this device and run this when the 
+    # Define a reverse tether script for this device and run this when the
     # device is connected
     $tether_setup = "${selenium::selenium_dir}/${name}-reverse-tether.sh"
     file { $tether_setup :
       ensure  => file,
-      mode    => 0744,
+      mode    => '0744',
       owner   => root,
       group   => root,
       content => template('selenium/reverse-tether.sh.erb'),

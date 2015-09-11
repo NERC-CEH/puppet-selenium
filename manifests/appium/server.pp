@@ -76,7 +76,7 @@ define selenium::appium::server (
 
   # Create the appium node configuration
   $node_config    = "${selenium::config_path}/appium-${name}.json"
-  
+
   file { $node_config :
     ensure  => file,
     owner   => $user,
@@ -84,7 +84,7 @@ define selenium::appium::server (
     mode    => '0644',
     content => template('selenium/grid2-nodeconfig.erb'),
   }
-  
+
   $command = [
     $selenium::node_executable, "${selenium::appium_path}/bin/appium.js",
     '--port',                 $port,

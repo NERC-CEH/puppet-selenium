@@ -15,13 +15,13 @@
 # [*manage_user*] if the selenium user should be managed
 # [*manage_group*] if the selenium group should be managed
 # [*reverse_tether*] If reverse tethering should be enabled by default
-# [*reverse_tether_netmask*] The default netmask to be used when reverse 
+# [*reverse_tether_netmask*] The default netmask to be used when reverse
 #   tethering
 # [*reverse_tether_dns_server*] The default dns server to be used when
 #   reverse tethering
 # [*reverse_tether_dns_backup*] The default backup dns server to be used when
 #   reverse tethering
-# [*headless_command*] The command to run by default when a service should be 
+# [*headless_command*] The command to run by default when a service should be
 #   run headlessly
 #
 # === Authors
@@ -48,12 +48,12 @@ class selenium (
 
   $udev_device_rules_location = '/etc/udev/rules.d/51-selenium.rules'
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
-  
+
   $java = $::osfamily ? {
     windows => 'java',
     default => '/usr/bin/java',
   }
-  
+
   $adb_location = "${android_home}/platform-tools/adb"
 
   $config_path  = $::osfamily ? {
@@ -66,7 +66,7 @@ class selenium (
     windows => 'c:/Program Files/selenium',
     default => '/opt/selenium',
   }
-  
+
   $selenium_jar = "${selenium_dir}/server.jar"
 
   $appium_path = $::osfamily ? {
@@ -88,16 +88,16 @@ class selenium (
 
   $capabilities = $::osfamily ? {
     Darwin  => [
-      {browserName => "safari",  maxInstances => 5}
+      {browserName => 'safari',  maxInstances => 5}
     ],
-	windows => [
-      {browserName => "chrome",            maxInstances => 5},
-      {browserName => "firefox",           maxInstances => 5},
-      {browserName => "internet explorer", maxInstances => 1}
-	],
+  windows => [
+      {browserName => 'chrome',            maxInstances => 5},
+      {browserName => 'firefox',           maxInstances => 5},
+      {browserName => 'internet explorer', maxInstances => 1}
+  ],
     default => [
-      {browserName => "chrome",  maxInstances => 5},
-      {browserName => "firefox", maxInstances => 5}
+      {browserName => 'chrome',  maxInstances => 5},
+      {browserName => 'firefox', maxInstances => 5}
     ],
   }
 
@@ -118,8 +118,8 @@ class selenium (
   # Create a location to put some node config files
   file { $config_path :
     ensure => directory,
-    owner   => $user,
-    group   => $group,
+    owner  => $user,
+    group  => $group,
   }
 
   file { $selenium_dir :

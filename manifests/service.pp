@@ -1,5 +1,5 @@
 # == Define: selenium::server
-# 
+#
 # An internal define which sets up a command to run as a service. On Mac, this will occur when
 # $user logs in. On linux this will run as a real service.
 #
@@ -19,7 +19,7 @@ define selenium::service (
   $command          = [],
   $service_name     = $name,
 ) {
-  # Check if we need to run this service headlessly. THIS DOES NOT WORK ON 
+  # Check if we need to run this service headlessly. THIS DOES NOT WORK ON
   # Darwin or Windows
   $actual_command = $headless ? {
     true    => concat([$headless_command], $command),
@@ -31,7 +31,7 @@ define selenium::service (
       $plist_label = "com.selenium.${service_name}.server"
       $plist = "/Users/${user}/Library/LaunchAgents/${plist_label}.plist"
       # Mac OS X requires appium to run as an interactive user (i.e. logged in)
-      # I don't think puppet can start a user specific service, you will need to 
+      # I don't think puppet can start a user specific service, you will need to
       # (re)log the $user in after this puppet run.
       file { $plist :
         ensure  => file,
@@ -44,7 +44,7 @@ define selenium::service (
     windows: {
       $batch = "c:/Users/${user}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/selenium-${service_name}.bat"
 
-      file { $batch : 
+      file { $batch :
         ensure  => file,
         owner   => $user,
         group   => $group,
