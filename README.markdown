@@ -47,7 +47,7 @@ pc.
 Below shows an animation of real devices which are reverse tethered being used for testing via
 appium.
 
-![Mobile testing](mobile-devices.gif)
+![Mobile testing](https://raw.githubusercontent.com/NERC-CEH/puppet-selenium/master/mobile-devices.gif)
 
 ## Setup
 
