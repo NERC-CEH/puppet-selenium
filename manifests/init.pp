@@ -86,15 +86,17 @@ class selenium (
     default => '/usr/bin/chromedriver',
   }
 
+  $iedriver_path = "${selenium_dir}/IEDriverServer.exe"
+
   $capabilities = $::osfamily ? {
     Darwin  => [
       {browserName => 'safari',  maxInstances => 5}
     ],
-  windows => [
+    windows => [
       {browserName => 'chrome',            maxInstances => 5},
       {browserName => 'firefox',           maxInstances => 5},
       {browserName => 'internet explorer', maxInstances => 1}
-  ],
+    ],
     default => [
       {browserName => 'chrome',  maxInstances => 5},
       {browserName => 'firefox', maxInstances => 5}
@@ -149,7 +151,7 @@ class selenium (
   }
 
   if $iedriver {
-    file { "${selenium_dir}/IEDriverServer.exe" :
+    file { $iedriver_path :
       ensure => file,
       owner  => $user,
       group  => $group,

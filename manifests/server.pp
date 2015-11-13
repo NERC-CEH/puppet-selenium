@@ -58,7 +58,11 @@ define selenium::server (
   }
 
   $role_options = $role ? {
-    'node' => ['-nodeConfig', $node_config],
+    'node' => [
+      '-nodeConfig', $node_config,
+      "-Dwebdriver.ie.driver=${selenium::iedriver_path}", 
+      "-Dwebdriver.chrome.driver=${selenium::chromedriver_path}"
+    ],
     'hub'  => ['-port', $port],
   }
 
