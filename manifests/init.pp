@@ -82,6 +82,7 @@ class selenium (
   }
 
   $chromedriver_path = $::osfamily ? {
+    Darwin  => '/usr/local/bin/chromedriver',
     windows => "${selenium_dir}/chromedriver.exe",
     default => '/usr/bin/chromedriver',
   }
