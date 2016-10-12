@@ -27,7 +27,7 @@ define selenium::service (
   }
 
   case $::osfamily {
-    'Darwin': {
+    Darwin: {
       $plist_label = "com.selenium.${service_name}.server"
       $plist = "/Users/${user}/Library/LaunchAgents/${plist_label}.plist"
       # Mac OS X requires appium to run as an interactive user (i.e. logged in)
@@ -41,7 +41,7 @@ define selenium::service (
         content => template('selenium/service-plist.erb'),
       }
     }
-    'windows': {
+    windows: {
       $batch = "c:/Users/${user}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/selenium-${service_name}.bat"
 
       file { $batch :
