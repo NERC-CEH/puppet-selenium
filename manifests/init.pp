@@ -50,55 +50,55 @@ class selenium (
   $udev_reverse_tether_rules_location = '/etc/udev/rules.d/81-selenium.rules'
 
   $java = $::osfamily ? {
-    windows => 'java',
-    default => '/usr/bin/java',
+    'windows' => 'java',
+    default   => '/usr/bin/java',
   }
 
   $adb_location = "${android_home}/platform-tools/adb"
 
   $config_path  = $::osfamily ? {
-    windows => 'c:/Program Files/selenium/conf',
-    default => '/etc/selenium',
+    'windows' => 'c:/Program Files/selenium/conf',
+    default   => '/etc/selenium',
   }
 
   $selenium_dir = $::osfamily ? {
-    Darwin  => "/Users/${user}/selenium",
-    windows => 'c:/Program Files/selenium',
-    default => '/opt/selenium',
+    'Darwin'  => "/Users/${user}/selenium",
+    'windows' => 'c:/Program Files/selenium',
+    default   => '/opt/selenium',
   }
 
   $selenium_jar = "${selenium_dir}/server.jar"
 
   $appium_path = $::osfamily ? {
-    Darwin  => '/usr/local/lib/node_modules/appium',
-    windows => 'c:/Program Files/nodejs/node_modules/appium',
-    default => '/usr/lib/node_modules/appium',
+    'Darwin'  => '/usr/local/lib/node_modules/appium',
+    'windows' => 'c:/Program Files/nodejs/node_modules/appium',
+    default   => '/usr/lib/node_modules/appium',
   }
 
   $node_executable = $::osfamily ? {
-    Darwin  => '/usr/local/bin/node',
-    windows => 'c:/Program Files/nodejs/node',
-    default => '/usr/bin/node',
+    'Darwin'  => '/usr/local/bin/node',
+    'windows' => 'c:/Program Files/nodejs/node',
+    default   => '/usr/bin/node',
   }
 
   $chromedriver_path = $::osfamily ? {
-    Darwin  => '/usr/local/bin/chromedriver',
-    windows => "${selenium_dir}/chromedriver.exe",
-    default => '/usr/bin/chromedriver',
+    'Darwin'  => '/usr/local/bin/chromedriver',
+    'windows' => "${selenium_dir}/chromedriver.exe",
+    default   => '/usr/bin/chromedriver',
   }
 
   $iedriver_path = "${selenium_dir}/IEDriverServer.exe"
 
   $capabilities = $::osfamily ? {
-    Darwin  => [
+    'Darwin'  => [
       {browserName => 'safari',  maxInstances => 5}
     ],
-    windows => [
+    'windows' => [
       {browserName => 'chrome',            maxInstances => 5},
       {browserName => 'firefox',           maxInstances => 5},
       {browserName => 'internet explorer', maxInstances => 1}
     ],
-    default => [
+    default   => [
       {browserName => 'chrome',  maxInstances => 5},
       {browserName => 'firefox', maxInstances => 5}
     ],
