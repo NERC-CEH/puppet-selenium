@@ -62,7 +62,7 @@ class selenium (
   }
 
   $selenium_dir = $::osfamily ? {
-    Darwin  => "/Users/${user}/selenium",
+    darwin  => "/Users/${user}/selenium",
     windows => 'c:/Program Files/selenium',
     default => '/opt/selenium',
   }
@@ -70,19 +70,19 @@ class selenium (
   $selenium_jar = "${selenium_dir}/server.jar"
 
   $appium_path = $::osfamily ? {
-    Darwin  => '/usr/local/lib/node_modules/appium',
+    darwin  => '/usr/local/lib/node_modules/appium',
     windows => 'c:/Program Files/nodejs/node_modules/appium',
     default => '/usr/lib/node_modules/appium',
   }
 
   $node_executable = $::osfamily ? {
-    Darwin  => '/usr/local/bin/node',
+    darwin  => '/usr/local/bin/node',
     windows => 'c:/Program Files/nodejs/node',
     default => '/usr/bin/node',
   }
 
   $chromedriver_path = $::osfamily ? {
-    Darwin  => '/usr/local/bin/chromedriver',
+    darwin  => '/usr/local/bin/chromedriver',
     windows => "${selenium_dir}/chromedriver.exe",
     default => '/usr/bin/chromedriver',
   }
@@ -90,7 +90,7 @@ class selenium (
   $iedriver_path = "${selenium_dir}/IEDriverServer.exe"
 
   $capabilities = $::osfamily ? {
-    Darwin  => [
+    darwin  => [
       {browserName => 'safari',  maxInstances => 5}
     ],
     windows => [

@@ -20,14 +20,14 @@ define selenium::service (
   $service_name     = $name,
 ) {
   # Check if we need to run this service headlessly. THIS DOES NOT WORK ON
-  # Darwin or Windows
+  # darwin or Windows
   $actual_command = $headless ? {
     true    => concat([$headless_command], $command),
     default => $command,
   }
 
   case $::osfamily {
-    Darwin: {
+    darwin: {
       $plist_label = "com.selenium.${service_name}.server"
       $plist = "/Users/${user}/Library/LaunchAgents/${plist_label}.plist"
       # Mac OS X requires appium to run as an interactive user (i.e. logged in)
