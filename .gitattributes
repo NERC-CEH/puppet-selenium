@@ -1,4 +1,0 @@
-* text=auto
-
-# Ensure that the templates have unix style line endings
-*.erb text eol=lf

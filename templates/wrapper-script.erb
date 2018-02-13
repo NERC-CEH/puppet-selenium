@@ -1,9 +1,0 @@
-#! /bin/sh
-# This defaults file is managed by the selenium puppet module.
-# Editing is futile !
-
-<% @environment.each_pair do |key, value| -%>
-  export <%=key%>=<%=value%>
-<% end -%>
-
-exec <%= @actual_command.join(' ') %>
